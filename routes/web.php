@@ -33,8 +33,11 @@ Route::group(['prefix' => 'anggota', 'middleware' => 'rolekoperasi'], function()
     Route::get('/tambah', 'AnggotaController@formTambah');
     Route::get('/edit/{id}', 'AnggotaController@formEdit');
     Route::post('/add', 'AnggotaController@add');
+    Route::post('/add/import', 'AnggotaController@importData');
     Route::post('/update/{id}', 'AnggotaController@update');
     Route::get('/nonaktif/{id}', 'AnggotaController@nonaktif');
+    Route::get('/verifikasi/{id}', 'AnggotaController@formVerifikasi');
+    Route::post('/verifikasi/{id}', 'AnggotaController@verifikasi');
 });
 
 //karyawan
@@ -46,6 +49,7 @@ Route::group(['prefix' => 'karyawan', 'middleware' => 'rolekoperasi'], function(
     Route::post('/add', 'KaryawanController@add');
     Route::post('/update/{id}', 'KaryawanController@update');
     Route::get('/delete/{id}', 'KaryawanController@delete');
+    Route::post('/add/import', 'KaryawanController@importData');
 });
 
 //pengurus

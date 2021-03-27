@@ -37,13 +37,24 @@
                       @endif
                     </div>
 
-                    <div class="form-group">
-                        <label class="text-label">Nama</label>
+                    {{-- <div class="form-group">
+                        <label class="text-label">Pengguna</label>
                         <select name="pengguna" class="js-example-placeholder-multiple form-control">
                           @foreach ($pengguna as $item)
                             <option value="{{ $item->id }}">{{ $item->user->name }}</option>
                           @endforeach
                         </select>
+                    </div> --}}
+
+                    <div class="form-group">
+                      <label class="text-label">Nama Lengkap</label>
+                      <input type="text" name="nama" class="form-control">
+
+                      @if($errors->has('nama'))
+                          <div class="text-danger">
+                            {{ $errors->first('nama') }}
+                          </div>
+                      @endif
                     </div>
 
                     <div class="form-group">

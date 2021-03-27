@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\AnggotaImport;
 use App\model\Anggota;
 use App\model\Karyawan;
 use App\model\Koperasi;
@@ -11,12 +12,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Kavist\RajaOngkir\Facades\RajaOngkir;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AnggotaController extends Controller
 {
     public function index()
     {
-        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->orderBy('id', 'desc')->get();
+        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->orderBy('status', 'asc')->orderBy('id', 'DESC')->get();
 
         return view('anggota.index', compact('anggota'));   
     }
@@ -77,21 +79,45 @@ class AnggotaController extends Controller
         ];
 
         $this->validate($request, [
-            'no_anggota' => 'required'
+            'no_anggota' => 'required', 
+            'nama' => 'required'
         ], $message);
 
         Anggota::create([
+            'nama' => $request->nama,
             'no_anggota' => $request->no_anggota,
             'id_koperasi' => Session::get('id_koperasi'),
-            'id_pengguna' => $request->pengguna,
+            'id_pengguna' => null,
             'simpanan' => 0,
             'simpanan_wajib' => 0,
             'simpanan_pokok' => 0,
             'pinjaman' => 0,
-            'status' => 1,
+            'status' => 4,
             'id_karyawan' => $request->karyawan,
             'keterangan' => null,
         ]);
+
+        return redirect('/anggota')->with('alert-success', 'berhasil tambah data');
+    }
+
+    public function importData(Request $request)
+    {
+        $message = [
+            'required' => ':attribute tidak boleh kosong !', 
+            'mimes:csv,xls,xlsx' => ':attribute hanya boleh diisi oleh format file csv, xls, xlsx !'
+        ];
+
+        $this->validate($request, [
+            'import_data' => 'required|mimes:csv,xls,xlsx'
+        ], $message);
+
+        $file = $request->file('import_data');
+
+        $nama_file = rand()."-anggota-".$file->getClientOriginalName();
+
+        $file->move('excel', $nama_file);
+
+        Excel::import(new AnggotaImport, public_path('/excel/'. $nama_file));
 
         return redirect('/anggota')->with('alert-success', 'berhasil tambah data');
     }
@@ -127,5 +153,32 @@ class AnggotaController extends Controller
         $anggota->save();
 
         return redirect('/anggota')->with('alert-success', 'Berhasil Non Aktif anggota');
+    }
+
+    public function formVerifikasi($id)
+    {
+        $anggota = Anggota::find($id);
+
+        $pengguna = Pengguna::find($anggota->id_pengguna);
+
+        return view('anggota.verifikasi', compact('anggota', 'pengguna'));
+    }
+
+    public function verifikasi(Request $request, $id)
+    {   
+        $anggota = Anggota::find($id);
+
+        if ($request->verifikasi == 1) {
+            $anggota->status = 1;
+        }
+        else {
+            $anggota->status = 4;
+
+            $anggota->id_pengguna = null;
+        }
+
+        $anggota->save();
+
+        return redirect('/anggota')->with('alert-success', 'berhasil verifikasi data');
     }
 }

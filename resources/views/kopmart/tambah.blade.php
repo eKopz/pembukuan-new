@@ -91,7 +91,7 @@
                     </div>
 
                   <button type="submit" class="btn btn-success btn-form mr-2">Simpan</button>
-                  <a href="/kas" class="btn btn-light text-dark btn-form">Kembali</a>
+                  <a href="/kopmart" class="btn btn-light text-dark btn-form">Kembali</a>
                 </form>
             </div>
         </div>

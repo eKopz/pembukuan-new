@@ -38,6 +38,31 @@
                 <a href="/karyawan/tambah" class="btn btn-rounded btn-success" style="margin-bottom: 20px; background-color: #558b2f;"><span class="btn-icon-left text-success">
                 <i class="fa fa-plus color-info"></i> </span>Tambah Data</a>
 
+                <!-- Button trigger modal -->
+                <a href="#" class="btn btn-rounded btn-success" style="margin-bottom: 20px; background-color: #558b2f;" data-toggle="modal" data-target="#basicModal"><span class="btn-icon-left text-success">
+                    <i class="fa fa-file-excel-o color-info"></i> </span>Import Data</a>
+
+                <!-- Modal -->
+                <div class="modal fade" id="basicModal">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Import Data</h5>
+                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/karyawan/add/import" method="POST" enctype="multipart/form-data">
+                                    @csrf 
+                                    <input type="file" class="form-control" name="import_data">
+                                    <button type="button" class="btn btn-secondary mt-5" data-dismiss="modal">Kembali</button>
+                                    <input type="submit" class="btn btn-success mt-5" value="Import Data">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                   <table class="example-style display" style="min-width: 845px; color: black;">
                   <thead>
                       <tr>
