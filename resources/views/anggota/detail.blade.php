@@ -33,7 +33,7 @@
                                     </li>
                                     <li class="mb-4">
                                         <h5>Nama Anggota</h5>
-                                        <p>{{ $anggota->pengguna->user->name }}</p>
+                                        <p>{{ $anggota->nama }}</p>
                                     </li>
                                     <li class="mb-4">
                                         <h5>Jenis Kelamin</h5>
@@ -152,7 +152,7 @@
                     <img class="rounded-circle" @if ($anggota->pengguna->foto == null || $anggota->pengguna->foto == "") src="{{ asset('assets/images/users/1.jpg') }}" @endif src="{{ $anggota->pengguna->foto }}" alt="image">
                 </div>
                 <div class="user-intro">
-                    <h4 class="text-primary card-intro-title mb-0">{{ $anggota->pengguna->user->name }}</h4>
+                    <h4 class="text-primary card-intro-title mb-0">{{ $anggota->nama }}</h4>
                     </p>
                     @if ($anggota->status == 1)
                         <p>Anggota</p> 

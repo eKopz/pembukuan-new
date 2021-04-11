@@ -36,7 +36,7 @@
                             </div>
                             <div class="my-3">
                                 <p class="mb-0">Nama</p>
-                                <h5>{{ $anggota->pengguna->user->name }}</h5>
+                                <h5>{{ $anggota->nama }}</h5>
                             </div>
                             <div class="my-3">
                                 <p class="mb-0">No KTP</p>

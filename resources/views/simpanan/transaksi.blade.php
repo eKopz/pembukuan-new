@@ -28,7 +28,7 @@
                             @if ($item->status == 1)
                                 <img class="mr-3 rounded-circle" alt="image" src="{{ asset('assets/images/simpan_pinjam/masuk.png') }}">
                                 <div class="media-body">
-                                    <h5 class="mt-2 text-pale-sky">{{ $item->anggota->pengguna->user->name }}</h5>
+                                    <h5 class="mt-2 text-pale-sky">{{ $item->anggota->nama }}</h5>
                                     <h6 class="text-success mb-0">{{ $item->jenis_simpanan->jenis }}</h6>
                                     <h6 class="text-muted mb-0">{{ $item->created_at }}</h6>
                                 </div>
@@ -36,7 +36,7 @@
                             @else 
                                 <img class="mr-3 rounded-circle" alt="image" src="{{ asset('assets/images/simpan_pinjam/keluar.png') }}">
                                 <div class="media-body">
-                                    <h5 class="mt-2 text-pale-sky">{{ $item->anggota->pengguna->user->name }}</h5>
+                                    <h5 class="mt-2 text-pale-sky">{{ $item->anggota->nama }}</h5>
                                     <h6 class="text-danger mb-0">{{ $item->jenis_simpanan->jenis }}</h6>
                                     <h6 class="text-muted mb-0">{{ $item->created_at }}</h6>
                                 </div>

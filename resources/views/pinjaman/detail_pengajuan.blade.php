@@ -36,7 +36,7 @@
                             </div>
                             <div class="my-3 mt-4">
                                 <p class="mb-0">Nama</p>
-                                <h5>{{ $pinjaman->anggota->pengguna->user->name }}</h5>
+                                <h5>{{ $pinjaman->anggota->nama }}</h5>
                             </div>
                             <div class="my-3 mt-4">
                                 <p class="mb-0">No KTP</p>

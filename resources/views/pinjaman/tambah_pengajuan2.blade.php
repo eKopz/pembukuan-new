@@ -39,7 +39,7 @@
                       <label class="text-label">Anggota</label>
                       <select name="id_anggota" class="js-example-placeholder-multiple form-control">
                         @foreach ($anggota as $item)
-                          <option @if ($id_anggota == $item->id) selected @endif value="{{ $item->id }}">{{ $item->no_anggota }} - {{ $item->pengguna->user->name }}</option>
+                          <option @if ($id_anggota == $item->id) selected @endif value="{{ $item->id }}">{{ $item->no_anggota }} - {{ $item->nama }}</option>
                         @endforeach
                       </select>
                     </div>

@@ -14,7 +14,7 @@ class SimpananController extends Controller
 {
     public function rekap()
     {
-        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->get();
+        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->get();
 
         return view('simpanan.rekap', compact('anggota'));
     }
@@ -90,7 +90,7 @@ class SimpananController extends Controller
 
     public function transaksi()
     {
-        $simpanan = Simpanan::where('id_koperasi', Session::get('id_koperasi'))->orderBy('id', 'DESC')->paginate(10);
+        $simpanan = Simpanan::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->orderBy('id', 'DESC')->paginate(10);
 
         return view('simpanan.transaksi', compact('simpanan'));
     }
@@ -98,7 +98,7 @@ class SimpananController extends Controller
     public function formTambah()
     {
         $jenis = JenisSimpanan::all();
-        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->get();
+        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->get();
 
         return view('simpanan.tambah', compact('jenis', 'anggota'));
     }
@@ -106,7 +106,7 @@ class SimpananController extends Controller
     public function formEdit($id)
     {
         $jenis = JenisSimpanan::all();
-        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->get();
+        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->get();
         $simpanan = Simpanan::find($id);
 
         return view('simpanan.edit', compact('simpanan', 'jenis', 'anggota'));

@@ -39,7 +39,7 @@
                         <label class="text-label">Pinjaman</label>
                         <select name="id_pinjaman" id="id_pinjaman" class="js-example-placeholder-multiple form-control">
                           @foreach ($pinjaman as $item)
-                            <option value="{{ $item->id }}">{{ $item->anggota->pengguna->user->name }} (angsuran ke-{{ $item->angsuran + 1 }}) - Rp. {{ number_format($item->jumlah_pinjaman / $item->jumlah_cicilan + $item->jumlah_pinjaman * $item->jumlah_cicilan/100 / $item->jumlah_cicilan,0,',','.') }}</option>
+                            <option value="{{ $item->id }}">{{ $item->anggota->nama }} (angsuran ke-{{ $item->angsuran + 1 }}) - Rp. {{ number_format($item->jumlah_pinjaman / $item->jumlah_cicilan + $item->jumlah_pinjaman * $item->jumlah_cicilan/100 / $item->jumlah_cicilan,0,',','.') }}</option>
                           @endforeach
                         </select>
                       </div>

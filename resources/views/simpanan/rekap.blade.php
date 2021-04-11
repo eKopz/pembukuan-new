@@ -57,7 +57,7 @@
                     @foreach ($anggota as $item)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{ $item->pengguna->user->name }}</td>
+                            <td>{{ $item->nama }}</td>
                             <td>Rp. {{ number_format($item->simpanan_pokok,0,',','.') }}</td>
                             <td>Rp. {{ number_format($item->simpanan_wajib,0,',','.') }}</td>
                             <td>Rp. {{ number_format($item->simpanan,0,',','.') }}</td>

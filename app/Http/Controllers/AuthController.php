@@ -78,21 +78,26 @@ class AuthController extends Controller
         ]);
 
         $body = json_decode($api->getBody(), true);
-
-        if ($body['status'] == 200) {
-            Session::put('token', $body['access_token']);
-            Session::put('id', $body['account']['id']);
-            Session::put('name', $body['account']['name']);
-            Session::put('email', $body['account']['email']);
-            Session::put('role', $body['account']['role']);
-            Session::put('id_koperasi', $body['id_koperasi']);
-
-            return redirect('/');
-        } 
-        else {
+        
+        if($body['status'] == 200){
+            $koperasi = Koperasi::where('id_users', $body['account']['id'])->first();
+            
+            if ($koperasi != null) {
+                Session::put('token', $body['access_token']);
+                Session::put('id', $body['account']['id']);
+                Session::put('name', $body['account']['name']);
+                Session::put('email', $body['account']['email']);
+                Session::put('role', $body['account']['role']);
+                Session::put('id_koperasi', $koperasi->id);
+    
+                return redirect('/');
+            } 
+            else {
+                return redirect('/login')->with('alert', 'Maaf, akun yang anda masukkan bukan role untuk pengurus koperasi !');
+            }
+        } else {
             return redirect('/login')->with('alert', 'email atau password salah !');
         }
-
     }
 
     //logout

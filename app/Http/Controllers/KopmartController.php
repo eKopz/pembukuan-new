@@ -130,9 +130,9 @@ class KopmartController extends Controller
 
         $pesanan = DB::table('pesanan_barang')
                 ->join('pesanan', 'pesanan_barang.id_pesanan', '=', 'pesanan.id')
-                ->join('users', 'pesanan.id_users', '=', 'users.id')
+                ->join('alamat', 'pesanan.id_alamat', '=', 'alamat.id')
                 ->join('barang', 'pesanan_barang.id_barang', '=', 'barang.id')
-                ->select('users.name as nama_penerima', 'pesanan.created_at as tgl_order', 'pesanan_barang.jumlah', DB::raw('sum(barang.harga + pesanan.biaya_ongkir) as total'), 'pesanan.status as status')
+                ->select('alamat.nama as nama_penerima', 'pesanan.created_at as tgl_order', 'pesanan_barang.jumlah', DB::raw('sum(barang.harga + pesanan.biaya_ongkir) as total'), 'pesanan.status as status')
                 ->where('pesanan.id_toko', $id_toko)
                 ->orderBy('tgl_order', 'DESC')
                 ->groupBy('pesanan_barang.id')

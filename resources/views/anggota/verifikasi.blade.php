@@ -38,7 +38,7 @@
 
                     <div class="form-group">
                         <label class="text-label">Jenis Kelamin</label>
-                        <input type="text" name="jenis_kelamin" class="form-control" @if ($pengguna->jenis_kelamin == 1) value="Laki-Laki" @else value="Perempuan" @endif readonly>
+                        <input type="text" name="jenis_kelamin" class="form-control" @if ($pengguna->jenis_kelamin == 1) value="Laki-Laki" @elseif ($pengguna->jenis_kelamin == 2) value="Perempuan" @else value="" @endif readonly>
                     </div>
 
                     <div class="form-group">

@@ -54,7 +54,7 @@
                                 @foreach ($pinjaman as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $item->anggota->pengguna->user->name }}</td>
+                                        <td>{{ $item->anggota->nama }}</td>
                                         <td>Rp. {{ number_format($item->jumlah_pinjaman,0,',','.') }}</td>
                                         <td>{{ $item->jumlah_cicilan }}x</td>
                                         <td>

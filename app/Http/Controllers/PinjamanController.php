@@ -99,7 +99,7 @@ class PinjamanController extends Controller
 
     public function formTambah()
     {
-        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->get();
+        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->get();
 
         return view('pinjaman.tambah_pengajuan', compact('anggota'));
     }
@@ -137,7 +137,7 @@ class PinjamanController extends Controller
             'cicilan' => 'required|numeric'
         ]);
 
-        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->orderBy('id', 'DESC')->get();
+        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->orderBy('id', 'DESC')->get();
 
         $id_anggota = $request->id_anggota;
 
