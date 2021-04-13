@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\model\Anggota;
 use App\model\Koperasi;
+use App\model\Pengguna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
@@ -80,21 +82,37 @@ class AuthController extends Controller
         $body = json_decode($api->getBody(), true);
         
         if($body['status'] == 200){
-            $koperasi = Koperasi::where('id_users', $body['account']['id'])->first();
-            
-            if ($koperasi != null) {
+            $pengguna = Pengguna::where('id_users', $body['account']['id'])->first();
+
+            if ($pengguna != null) {
+                $anggota = Anggota::where('id_pengguna', $pengguna->id)->first();
+
+                if ($anggota != null) {
+                    Session::put('token', $body['access_token']);
+                    Session::put('id', $body['account']['id']);
+                    Session::put('name', $body['account']['name']);
+                    Session::put('email', $body['account']['email']);
+                    Session::put('role', $body['account']['role']);
+                    Session::put('id_anggota', $anggota->id);
+                }
+                else {
+                    Session::put('token', $body['access_token']);
+                    Session::put('id', $body['account']['id']);
+                    Session::put('name', $body['account']['name']);
+                    Session::put('email', $body['account']['email']);
+                    Session::put('role', $body['account']['role']);
+                }
+            }
+            else {
                 Session::put('token', $body['access_token']);
                 Session::put('id', $body['account']['id']);
                 Session::put('name', $body['account']['name']);
                 Session::put('email', $body['account']['email']);
                 Session::put('role', $body['account']['role']);
-                Session::put('id_koperasi', $koperasi->id);
-    
-                return redirect('/');
-            } 
-            else {
-                return redirect('/login')->with('alert', 'Maaf, akun yang anda masukkan bukan role untuk pengurus koperasi !');
             }
+
+            return redirect('/');
+
         } else {
             return redirect('/login')->with('alert', 'email atau password salah !');
         }
@@ -108,7 +126,8 @@ class AuthController extends Controller
         Session::forget('name');
         Session::forget('email');
         Session::forget('role');
-        Session::forget('id_koperasi');
+        Session::forget('id_anggota');
+        Session::forget('akses');
 
         return redirect('/login')->with('alert-success', 'berhasil logout');
     }

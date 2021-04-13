@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\model\Anggota;
 use App\model\JenisSimpanan;
+use App\model\PenarikanSimpanan;
 use App\model\Simpanan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -195,10 +196,40 @@ class SimpananController extends Controller
                 return redirect('/simpanan/tambah')->with('alert-danger', 'jumlah penarikan simpanan melebihi simpanan yang ada ! ');
             }
         }
-        
-
-        
 
         return redirect('/simpanan')->with('alert-success', 'berhasil tambah data');
+    }
+
+    public function penarikanSimpanan()
+    {
+        $simpanan = PenarikanSimpanan::where('id_koperasi', Session::get('id_koperasi'))->orderBy('id', 'DESC')->get();
+
+        return view('simpanan.penarikan', compact('simpanan'));
+    }
+
+    public function formPenarikanSimpanan($id)
+    {
+        $simpanan = PenarikanSimpanan::find($id);
+
+        return view('simpanan.detail_penarikan', compact('simpanan'));
+    }
+
+    public function verifikasiPenarikanSimpanan(Request $request, $id)
+    {
+        $simpanan = PenarikanSimpanan::find($id);
+
+        $anggota = Anggota::find($simpanan->id_anggota);
+
+        $simpanan->status = $request->verifikasi;
+
+        $simpanan->save();
+
+        if ($request->verifikasi == 2) {
+            $anggota->simpanan -= $simpanan->jumlah;
+
+            $anggota->save();
+        }
+
+        return redirect('/simpanan/penarikan')->with('alert-success', 'berhasil verifikasi data !');
     }
 }
