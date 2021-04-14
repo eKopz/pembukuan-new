@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\ImageUpload;
 use App\model\Anggota;
 use App\model\JenisSimpanan;
 use App\model\PenarikanSimpanan;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Session;
 
 class SimpananController extends Controller
 {
+    use ImageUpload;
+    
     public function rekap()
     {
         $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->get();
@@ -231,5 +234,29 @@ class SimpananController extends Controller
         }
 
         return redirect('/simpanan/penarikan')->with('alert-success', 'berhasil verifikasi data !');
+    }
+
+    public function uploadBuktiPengiriman($id, Request $request)
+    {
+        $this->validate($request, [
+            'upload_foto' => 'required'
+        ], [
+            'required' => 'form :attribute tidak boleh kosong!'
+        ]);
+
+        $simpanan = PenarikanSimpanan::find($id);
+
+        $simpanan->status = 3;
+
+        //upload image
+        $foto = $request->upload_foto;
+        $urlFoto = $foto != null ?
+            $this->storeImages($foto, 'penarikan_simpanan') : null;
+
+        $simpanan->foto = $urlFoto;
+
+        $simpanan->save();
+
+        return redirect('/simpanan/penarikan')->with('alert-success', 'berhasil upload bukti pengiriman!');
     }
 }

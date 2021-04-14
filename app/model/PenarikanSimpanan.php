@@ -8,7 +8,7 @@ class PenarikanSimpanan extends Model
 {
     protected $table = "penarikan_simpanan";
 
-    protected $fillable = ['id_anggota', 'jumlah', 'status', 'id_koperasi'];
+    protected $fillable = ['id_anggota', 'jumlah', 'status', 'id_koperasi', 'foto'];
 
     public function anggota()
     {

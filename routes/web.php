@@ -78,6 +78,7 @@ Route::group(['prefix' => 'simpanan', 'middleware' => 'rolekoperasi'], function(
     Route::get('/penarikan', 'SimpananController@penarikanSimpanan');
     Route::get('/penarikan/verifikasi/{id}', 'SimpananController@formPenarikanSimpanan');
     Route::post('/penarikan/verifikasi/{id}', 'SimpananController@verifikasiPenarikanSimpanan');
+    Route::post('/penarikan/upload/{id}', 'SimpananController@uploadBuktiPengiriman');
 });
 
 //pinjaman

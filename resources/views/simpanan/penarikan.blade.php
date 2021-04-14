@@ -59,16 +59,16 @@
                             <td>
                                 @if ($item->status == 1)
                                     <span class="label label-danger">Belum Diverifikasi</span>
-                                @else
-                                    <span class="label label-success">Sudah Diverifikasi</span>
+                                @elseif ($item->status == 2)
+                                    <span class="label label-warning">Sudah Diverifikasi</span>
+                                @elseif ($item->status == 3)
+                                    <span class="label label-success">Selesai</span>
+                                @else 
+                                    <span class="label label-danger">Ditolak</span>
                                 @endif
                             </td>
                             <td>
-                                @if ($item->status == 1)
-                                    <a href="/simpanan/penarikan/verifikasi/{{ $item->id }}" class="btn btn-success btn-xs">Verifikasi</a>
-                                @else
-                                    
-                                @endif
+                                <a href="/simpanan/penarikan/verifikasi/{{ $item->id }}" class="btn btn-success btn-xs">Detail</a>
                             </td>
                         </tr>
                     @endforeach

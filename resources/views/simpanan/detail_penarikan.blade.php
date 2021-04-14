@@ -56,7 +56,9 @@
                                 @if ($simpanan->status == 1)
                                     <h4 class="text-danger">Belum Disetujui</h4>
                                 @elseif ($simpanan->status == 2)
-                                    <h4 class="text-success">Sudah Disetujui</h4>
+                                    <h4 class="text-warning">Sudah Disetujui</h4>
+                                @elseif ($simpanan->status == 3)
+                                    <h4 class="text-success">Selesai</h4>
                                 @else
                                     <h4 class="text-danger">Ditolak</h4>
                                 @endif
@@ -100,26 +102,67 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title mb-5">Verifikasi</h4>
-                    <div class="basic-form">
-                        <form action="/simpanan/penarikan/verifikasi/{{ $simpanan->id }}" method="POST">
-                            @csrf
+    @if ($simpanan->status == 3)
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-5">Bukti Pengiriman</h4>
+                        <center>
+                            <img src="{{ $simpanan->foto }}" alt="" width="400">
+                        </center>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    @else
+        
+    @endif
 
-                            <select name="verifikasi" class="form-control mb-4">
-                                <option value="2">Setujui</option>
-                                <option value="3">Tolak</option>
-                            </select>
+    @if ($simpanan->status == 1)
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-5">Verifikasi</h4>
+                        <div class="basic-form">
+                            <form action="/simpanan/penarikan/verifikasi/{{ $simpanan->id }}" method="POST">
+                                @csrf
 
-                            <input type="submit" class="btn btn-success btn-lg btn-block" value="Verifikasi">
-                        </form>
+                                <select name="verifikasi" class="form-control mb-4">
+                                    <option value="2">Setujui</option>
+                                    <option value="3">Tolak</option>
+                                </select>
+
+                                <input type="submit" class="btn btn-success btn-lg btn-block" value="Verifikasi">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @elseif ($simpanan->status == 2)
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-5">Upload Bukti Pengiriman</h4>
+                        <div class="basic-form">
+                            <form action="/simpanan/penarikan/upload/{{ $simpanan->id }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+    
+                                <input type="file" name="upload_foto" class="form-control mb-5">
+    
+                                <input type="submit" class="btn btn-success btn-lg btn-block" value="Upload Bukti Pengiriman">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @else 
+        
+    @endif
 @endsection
 
