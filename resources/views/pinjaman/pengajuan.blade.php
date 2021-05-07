@@ -40,6 +40,7 @@
                             <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Tanggal</th>
                                         <th>Nama</th>
                                         <th>Jumlah Pinjaman</th>
                                         <th>Jumlah Cicilan</th>
@@ -54,6 +55,7 @@
                                 @foreach ($pinjaman as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
+                                        <td>{{ $item->created_at->format('d M Y') }}</td>
                                         <td>{{ $item->anggota->nama }}</td>
                                         <td>Rp. {{ number_format($item->jumlah_pinjaman,0,',','.') }}</td>
                                         <td>{{ $item->jumlah_cicilan }}x</td>
@@ -85,6 +87,7 @@
                             <tfoot>
                                     <tr>
                                         <th>No</th>
+                                        <th>Tanggal</th>
                                         <th>Nama</th>
                                         <th>Jumlah Pinjaman</th>
                                         <th>Jumlah Cicilan</th>

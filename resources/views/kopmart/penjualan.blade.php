@@ -4,14 +4,14 @@
 
 @section('content-title')
     <div class="col p-0">
-        <h4 class="text-success">Data Kategori</h4>
+        <h4 class="text-success">Data Penjualan</h4>
         {{-- <h4>Hello {{ Auth::user()->name }}, <span>Selamat Datang di aplikasi Ekopz</span></h4> --}}
     </div>
     <div class="col p-0">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="javascript:void(0)">KopMart</a>
             </li>
-            <li class="breadcrumb-item active text-success">Data Kategori</li>
+            <li class="breadcrumb-item active text-success">Data Penjualan</li>
         </ol>
     </div>
 @endsection
@@ -28,9 +28,6 @@
                     <div class="col-xl-9">
                         <h2 class="text-success">Rp. <span>{{ number_format($penjualan->jumlah - $penghasilan,0,',','.') }}</span></h2>
                         <p class="tt-uppercase font-small mr-4">Saldo Penjual</p>
-                    </div>
-                    <div class="col-xl-3 mt-2">
-                        <a href="#" class="btn btn-success">Tarik Saldo</a>
                     </div>
                 </div>
             </div>

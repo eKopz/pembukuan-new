@@ -2,13 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\KasExport;
 use App\model\Kas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KasController extends Controller
 {
+    public function export(Request $request)
+    {
+        $this->validate($request, [
+            'tahun' => 'required',
+            'mulai' => 'required', 
+            'selesai' => 'required',
+        ]);
+
+        return Excel::download(new KasExport($request->tahun, $request->mulai, $request->selesai), 'kas.xlsx');
+    }
+
     public function index()
     {
         $kas = Kas::where('id_koperasi', Session::get('id_koperasi'))->get();

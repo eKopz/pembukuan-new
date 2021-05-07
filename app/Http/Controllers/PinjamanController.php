@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PinjamanExport;
 use App\model\Anggota;
 use App\model\AngsuranPinjaman;
 use App\model\Pinjaman;
@@ -10,9 +11,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PinjamanController extends Controller
 {
+
+    public function export(Request $request)
+    {
+        $this->validate($request, [
+            'tahun' => 'required',
+            'mulai' => 'required',
+            'selesai' => 'required'
+        ]);
+
+        return Excel::download(new PinjamanExport($request->tahun, $request->mulai, $request->selesai), 'pinjaman.xlsx');
+    }
+
     public function rekap()
     {
         $pinjaman = Pinjaman::where('status', 2)->orderBy('id', 'DESC')->get();

@@ -45,4 +45,9 @@ class Anggota extends Model
     {
         return $this->hasMany('App\model\Pinjaman');
     }
+
+    public function karyawan_koperasi()
+    {
+        return $this->hasMany('App\model\KaryawanKoperasi');
+    }
 }

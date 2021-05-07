@@ -44,6 +44,8 @@
                             <th>Debet</th>
                             <th>Kredit</th>
                             <th>Saldo</th>
+                            <th>Tanggal Dibuat</th>
+                            <th>Tanggal Update</th>
                             <th>Aksi</th>
                         </tr>
                   </thead>
@@ -59,9 +61,10 @@
                             <td></td>
                             <td>Rp. {{ number_format($item->jumlah,0,',','.') }}</td>
                             <td>Rp. {{ number_format($kas_keluar->saldo,0,',','.') }}</td>
+                            <td>{{ $item->created_at->format('d M Y H:i:s') }}</td>
+                            <td>{{ $item->updated_at->format('d M Y H:i:s') }}</td>
                             <td>
                                 <a href="/kas/edit/{{ $item->id }}" class="btn btn-warning btn-xs">Edit</a>
-                                <a href="/kas/delete/{{ $item->id }}" class="btn btn-danger btn-xs">Hapus</a>
                             </td>
                         </tr>
                     @endforeach
@@ -74,6 +77,8 @@
                             <th>Debet</th>
                             <th>Kredit</th>
                             <th>Saldo</th>
+                            <th>Tanggal Dibuat</th>
+                            <th>Tanggal Update</th>
                             <th>Aksi</th>
                         </tr>
                   </tfoot>

@@ -61,9 +61,9 @@
                     <i class="fa fa-bar-chart"></i><span class="nav-text">Laporan</span>
                 </a>
                 <ul aria-expanded="false">
-                    {{-- <li><a href="/keuangan/penghasilan/">Penghasilan saya</a></li>
-                    <li><a href="/keuangan/rekening/">Rekening Bank</a></li> --}}
-                    <li><a href="#">Coming Soon</a></li>
+                    <li><a href="#">Laba Rugi</a></li>
+                    <li><a href="#">SHU</a></li>
+                    <li><a href="#">Penggajian</a></li>
                 </ul>
             </li>
             <li class="mega-menu mega-menu-lg">
@@ -99,9 +99,9 @@
                     <i class="fa fa-bar-chart"></i><span class="nav-text">Laporan</span>
                 </a>
                 <ul aria-expanded="false">
-                    {{-- <li><a href="/keuangan/penghasilan/">Penghasilan saya</a></li>
-                    <li><a href="/keuangan/rekening/">Rekening Bank</a></li> --}}
-                    <li><a href="#">Coming Soon</a></li>
+                    <li><a href="#">Laba Rugi</a></li>
+                    <li><a href="#">SHU</a></li>
+                    <li><a href="#">Penggajian</a></li>
                 </ul>
             </li>
         @endif

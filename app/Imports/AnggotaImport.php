@@ -3,30 +3,44 @@
 namespace App\Imports;
 
 use App\model\Anggota;
+use App\model\Pinjaman;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class AnggotaImport implements ToModel
+class AnggotaImport implements ToCollection, WithHeadingRow
 {
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
+    * @param Collection $collection
     */
-    public function model(array $row)
+
+    public function collection(Collection $rows)
     {
-        return new Anggota([
-            'id_koperasi' => Session::get('id_koperasi'),
-            'id_pengguna' => null,
-            'simpanan' => 0, 
-            'simpanan_wajib' => 0,
-            'simpanan_pokok' => 0, 
-            'pinjaman' => 0,
-            'status' => 4, 
-            'id_karyawan' => null,
-            'no_anggota' => $row[1],
-            'nama' => $row[2],
-            'keterangan' => null,
-        ]);
+        foreach ($rows as $row) {
+            $anggota = Anggota::create([
+                'id_koperasi' => Session::get('id_koperasi'),
+                'id_pengguna' => null,
+                'simpanan' => $row['simpanan_manasuka'], 
+                'simpanan_wajib' => $row['simpanan_wajib'],
+                'simpanan_pokok' => $row['simpanan_pokok'], 
+                'pinjaman' => $row['sisa_pinjaman'],
+                'status' => 4, 
+                'id_karyawan' => null,
+                'no_anggota' => $row['no_anggota'],
+                'nama' => $row['nama'],
+                'keterangan' => null,
+            ]);
+
+            Pinjaman::create([  
+                'id_koperasi' => Session::get('id_koperasi'),
+                'id_anggota' => $anggota->id,
+                'keterangan' => null,
+                'status' => 2,
+                'jumlah_pinjaman' => $row['sisa_pinjaman'],
+                'jumlah_cicilan' => $row['jumlah_cicilan'],
+                'angsuran' => 0
+            ]);
+        }
     }
 }

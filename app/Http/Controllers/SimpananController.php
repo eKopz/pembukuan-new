@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SimpananExport;
 use App\Http\Controllers\Traits\ImageUpload;
 use App\model\Anggota;
 use App\model\JenisSimpanan;
@@ -11,11 +12,17 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SimpananController extends Controller
 {
     use ImageUpload;
     
+    public function export()
+    {
+        return Excel::download(new SimpananExport, 'simpanan.xlsx');
+    }
+
     public function rekap()
     {
         $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->get();

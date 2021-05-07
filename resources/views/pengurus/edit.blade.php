@@ -48,7 +48,7 @@
 
                     <div class="form-group">
                       <label class="text-label">Pengurus</label>
-                      <select name="jabatan" class="js-example-placeholder-multiple form-control">
+                      <select name="status" class="js-example-placeholder-multiple form-control">
                         <option @if ($pengurus->status == 1) selected @endif value="1">Pengurus</option>
                         <option @if ($pengurus->status == 0) selected @endif value="0">Keluar</option>
                       </select>

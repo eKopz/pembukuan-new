@@ -38,6 +38,9 @@
                 <a href="/simpanan/tambah" class="btn btn-rounded btn-success" style="margin-bottom: 20px; background-color: #558b2f;"><span class="btn-icon-left text-success">
                 <i class="fa fa-plus color-info"></i> </span>Tambah Data</a>
 
+                <a href="/simpanan/export" class="btn btn-rounded btn-warning" style="margin-bottom: 20px"><span class="btn-icon-left text-warning">
+                <i class="fa fa-print color-info"></i> </span>Export Data</a>
+
                   <table class="example-style display" style="min-width: 845px; color: black;">
                   <thead>
                       <tr>

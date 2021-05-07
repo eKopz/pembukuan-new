@@ -79,6 +79,7 @@ Route::group(['prefix' => 'simpanan', 'middleware' => 'rolekoperasi'], function(
     Route::get('/penarikan/verifikasi/{id}', 'SimpananController@formPenarikanSimpanan');
     Route::post('/penarikan/verifikasi/{id}', 'SimpananController@verifikasiPenarikanSimpanan');
     Route::post('/penarikan/upload/{id}', 'SimpananController@uploadBuktiPengiriman');
+    Route::get('/export', 'SimpananController@export');
 });
 
 //pinjaman
@@ -99,6 +100,7 @@ Route::group(['prefix' => 'pinjaman', 'middleware' => 'rolekoperasi'], function(
     Route::get('/delete/{id}', 'PinjamanController@delete');
     Route::get('/verifikasi/{id}', 'PinjamanController@formVerifikasiPinjaman');
     Route::post('/verifikasi/add/{id}', 'PinjamanController@addVerifikasiPinjaman');
+    Route::post('/export', 'PinjamanController@export');
 });
 
 //kas
@@ -112,6 +114,7 @@ Route::group(['prefix' => 'kas', 'middleware' => 'rolekoperasi'], function()
     Route::get('/delete/{id}', 'KasController@delete');
     Route::post('/add', 'KasController@add');
     Route::post('/update/{id}', 'KasController@update');
+    Route::post('/export', 'KasController@export');
 });
 
 //profile
