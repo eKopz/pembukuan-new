@@ -29,7 +29,7 @@
                                 <ul>
                                     <li>
                                         <h5>Nama Pengurus</h5>
-                                        <p>{{ $pengurus->anggota->pengguna->user->name }}</p>
+                                        <p>{{ $pengurus->anggota->nama }}</p>
                                     </li>
                                     <li>
                                         <h5>Jabatan</h5>
@@ -97,7 +97,7 @@
                     <img class="rounded-circle" @if ($pengurus->anggota->pengguna->foto == null || $pengurus->anggota->pengguna->foto == "") src="{{ asset('assets/images/users/1.jpg') }}" @endif src="{{ $pengurus->anggota->pengguna->foto }}" alt="image">
                 </div>
                 <div class="user-intro">
-                    <h4 class="text-primary card-intro-title mb-0">{{ $pengurus->anggota->pengguna->user->name }}</h4>
+                    <h4 class="text-primary card-intro-title mb-0">{{ $pengurus->anggota->nama }}</h4>
                     {{-- <p><small>@ Druid Wensleydale</small> --}}
                     </p>
                     <p>Pengurus</p>

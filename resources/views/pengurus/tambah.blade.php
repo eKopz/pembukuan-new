@@ -30,7 +30,7 @@
                         <label class="text-label">Anggota</label>
                         <select name="id_anggota" class="js-example-placeholder-multiple form-control">
                           @foreach ($anggota as $item)
-                            <option value="{{ $item->id }}">{{ $item->pengguna->user->name }}</option>
+                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
                           @endforeach
                         </select>
                     </div>

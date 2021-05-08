@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\model\Anggota;
+use App\model\KaryawanKoperasi;
 use App\model\Pengurus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -14,7 +15,9 @@ class PengurusController extends Controller
     {
         $pengurus = Pengurus::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->paginate(10);
 
-        return view('pengurus.index', compact('pengurus'));
+        $karyawan = KaryawanKoperasi::where('id_koperasi', Session::get('id_koperasi'))->orderBy('id', 'DESC')->paginate(10);
+
+        return view('pengurus.index', compact('pengurus', 'karyawan'));
     }
 
     public function detail($id)

@@ -62,6 +62,15 @@ Route::group(['prefix' => 'pengurus', 'middleware' => 'rolekoperasi'], function(
     Route::post('/add', 'PengurusController@add');
     Route::post('/update/{id}', 'PengurusController@update');
     Route::get('/delete/{id}', 'PengurusController@delete');
+
+    //karyawan_koperasi
+    Route::get('/karyawan/detail/{id}', 'KaryawanKoperasiController@detail');
+    Route::get('/karyawan/edit/{id}', 'KaryawanKoperasiController@formEdit');
+    Route::get('/karyawan/tambah', 'KaryawanKoperasiController@formTambah');
+    Route::post('/karyawan/aktif/{id}', 'KaryawanKoperasiController@aktif');
+    Route::get('/karyawan/nonaktif/{id}', 'KaryawanKoperasiController@nonAktif');
+    Route::post('/karyawan/add', 'KaryawanKoperasiController@add');
+    Route::post('/karyawan/update/{id}', 'KaryawanKoperasiController@udpate');
 });
 
 //simpanan
@@ -135,4 +144,10 @@ Route::group(['prefix' => 'kopmart', 'middleware' => 'rolekoperasi'], function()
     Route::get('/produk/{id}', 'KopmartController@produk');
     Route::get('/kategori/{id}', 'KopmartController@kategori');
     Route::get('/penjualan/{id}', 'KopmartController@penjualan');
+});
+
+
+Route::group(['prefix' => 'pajak', 'middleware' => 'rolekoperasi'], function()
+{
+    Route::get('/{id}', 'PajakController@getData');
 });

@@ -160,7 +160,32 @@
         });
     </script>
 
-
+    <script>
+        $(document).ready(function(){
+            $('select[name="id_pajak"]').on('change', function(){
+                // kita buat variable id_pajak untk menampung data id select pajak
+                let id_pajak = $(this).val();
+                //kita cek jika id di dpatkan maka apa yg akan kita eksekusi
+                if(id_pajak){
+                // jika di temukan id nya kita buat eksekusi ajax GET
+                    jQuery.ajax({
+                        // url yg di root yang kita buat tadi
+                        url:"/pajak/"+id_pajak,
+                        // aksion GET, karena kita mau mengambil data
+                        type:'GET',
+                        // type data json
+                        dataType:'json',
+                        // jika data berhasil di dapat maka kita mau apain nih
+                        success:function(data){
+                            $("#jumlah_pajak").html("<label class='text-label'>PTKP (s.d)</label><input type='text' class='form-control' value='Rp. "+data.total_gaji+"' readonly>");
+                        }
+                    });
+                } else {
+                    // $('select[name="kota_id"]').empty();
+                }
+            });
+        });
+    </script>
 
 </body>
 
