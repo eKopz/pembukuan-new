@@ -8,7 +8,7 @@ class KaryawanKoperasi extends Model
 {
     protected $table = 'karyawan_koperasi'; 
 
-    protected $fillable = ['id_anggota', 'loker', 'gaji_pokok', 'bank', 'no_rekening', 'id_pajak', 'potong_gaji', 'status'];
+    protected $fillable = ['id_anggota', 'loker', 'gaji_pokok', 'bank', 'no_rekening', 'id_pajak', 'potong_gaji', 'status', 'id_koperasi'];
 
     public function anggota()
     {
@@ -23,5 +23,10 @@ class KaryawanKoperasi extends Model
     public function gaji()
     {
         return $this->hasMany('App\model\Gaji');
+    }
+
+    public function potongGaji()
+    {
+        return $this->belongsTo('App\model\PotongGaji', 'potong_gaji');
     }
 }

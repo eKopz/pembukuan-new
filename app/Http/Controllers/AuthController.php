@@ -83,6 +83,7 @@ class AuthController extends Controller
         
         if($body['status'] == 200){
             $pengguna = Pengguna::where('id_users', $body['account']['id'])->first();
+            $koperasi = Koperasi::where('id_users', $body['account']['id'])->first();
 
             if ($pengguna != null) {
                 $anggota = Anggota::where('id_pengguna', $pengguna->id)->first();
@@ -94,6 +95,7 @@ class AuthController extends Controller
                     Session::put('email', $body['account']['email']);
                     Session::put('role', $body['account']['role']);
                     Session::put('id_anggota', $anggota->id);
+                    Session::put('foto', $koperasi->foto);
                 }
                 else {
                     Session::put('token', $body['access_token']);
@@ -101,6 +103,7 @@ class AuthController extends Controller
                     Session::put('name', $body['account']['name']);
                     Session::put('email', $body['account']['email']);
                     Session::put('role', $body['account']['role']);
+                    Session::put('foto', $koperasi->foto);
                 }
             }
             else {
@@ -109,6 +112,7 @@ class AuthController extends Controller
                 Session::put('name', $body['account']['name']);
                 Session::put('email', $body['account']['email']);
                 Session::put('role', $body['account']['role']);
+                Session::put('foto', $koperasi->foto);
             }
 
             return redirect('/');
@@ -128,6 +132,7 @@ class AuthController extends Controller
         Session::forget('role');
         Session::forget('id_anggota');
         Session::forget('akses');
+        Session::forget('foto');
 
         return redirect('/login')->with('alert-success', 'berhasil logout');
     }

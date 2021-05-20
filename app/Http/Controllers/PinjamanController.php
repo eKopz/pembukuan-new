@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\PinjamanExport;
+use App\Imports\PinjamanImport;
 use App\model\Anggota;
 use App\model\AngsuranPinjaman;
 use App\model\Pinjaman;
@@ -25,6 +26,28 @@ class PinjamanController extends Controller
         ]);
 
         return Excel::download(new PinjamanExport($request->tahun, $request->mulai, $request->selesai), 'pinjaman.xlsx');
+    }
+
+    public function importData(Request $request)
+    {
+        $message = [
+            'required' => ':attribute tidak boleh kosong !', 
+            'mimes:csv,xls,xlsx' => ':attribute hanya boleh diisi oleh format file csv, xls, xlsx !'
+        ];
+
+        $this->validate($request, [
+            'import_data' => 'required|mimes:csv,xls,xlsx'
+        ], $message);
+
+        $file = $request->file('import_data');
+
+        $nama_file = rand()."-pinjaman-".$file->getClientOriginalName();
+
+        $file->move('excel', $nama_file);
+
+        Excel::import(new PinjamanImport, public_path('/excel/'. $nama_file));
+
+        return redirect('/pinjaman')->with('alert-success', 'berhasil tambah data');
     }
 
     public function rekap()

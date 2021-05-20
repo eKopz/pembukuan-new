@@ -51,11 +51,17 @@ class KaryawanKoperasiController extends Controller
 
     public function formEdit($id)
     {
-        $karyawan = KaryawanKoperasi::find($id);
+        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->get();
+
+        $karyawan = KaryawanKoperasi::join('potong_gaji', 'karyawan_koperasi.potong_gaji', 'potong_gaji.id')
+            ->join('pajak', 'karyawan_koperasi.id_pajak', 'pajak.id')
+            ->select('karyawan_koperasi.*', 'potong_gaji.simpanan as simpanan', 'potong_gaji.simpanan_pokok as simpanan_pokok', 'potong_gaji.simpanan_wajib as simpanan_wajib', 'potong_gaji.pinjaman as pinjaman', 'pajak.total_gaji as jumlah_pajak')
+            ->where('karyawan_koperasi.id', $id)
+            ->first();
 
         $pajak = Pajak::all();
 
-        return view('pengurus.edit_karyawan', compact('karyawan', 'pajak'));
+        return view('pengurus.edit_karyawan', compact('karyawan', 'pajak', 'anggota'));
     }
 
     public function add(Request $request)
@@ -91,8 +97,9 @@ class KaryawanKoperasiController extends Controller
             'bank' => $request->bank,
             'no_rekening' => $request->no_rekening, 
             'id_pajak' => $request->id_pajak,
-            'potong_gaji' => $potong_gaji,
-            'status' => $request->status
+            'potong_gaji' => $potong_gaji->id,
+            'status' => $request->status,
+            'id_koperasi' => Session::get('id_koperasi'),
         ]);
 
         return redirect('/pengurus')->with('alert-success', 'berhasil tambah data karyawan!');
@@ -151,5 +158,12 @@ class KaryawanKoperasiController extends Controller
         $karyawan->save();
 
         return redirect()->back()->with('alert-success', 'berhasil ubah gaji pokok !');
+    }
+
+    public function getKaryawanById($id)
+    {
+        $karyawan = KaryawanKoperasi::find($id);
+
+        return json_encode($karyawan);
     }
 }

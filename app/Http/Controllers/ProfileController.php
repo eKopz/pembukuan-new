@@ -63,6 +63,8 @@ class ProfileController extends Controller
 
         $koperasi->save();
 
+        Session::put('foto', $urlFoto);
+
         return redirect('/profile')->with('status', 'upload toko berhasil !');
     }
 }

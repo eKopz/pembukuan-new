@@ -37,7 +37,11 @@
                                         </li>
                                         <li class="mb-4">
                                             <h5>Jenis Kelamin</h5>
-                                            <p>{{ $karyawan->anggota->pengguna->jenis_kelamin}}</p>
+                                            @if ($karyawan->anggota->pengguna->jenis_kelamin == null)
+                                                -
+                                            @else
+                                                <p>{{ $karyawan->anggota->pengguna->jenis_kelamin}}</p>
+                                            @endif
                                         </li>
                                         <li class="mb-4">
                                             <h5>Status Kerja</h5>
@@ -53,7 +57,7 @@
                                         </li>
                                         <li class="mb-4">
                                             <h5>Gaji Pokok</h5>
-                                            <p>{{ $karyawan->gaji_pokok }}</p>
+                                            <p>Rp. {{ number_format($karyawan->gaji_pokok,0,',','.') }}</p>
                                         </li>
                                         <li class="mb-4">
                                             <h5>Bank</h5>
@@ -89,15 +93,16 @@
                         {{-- <p><small>@ Druid Wensleydale</small> --}}
                         </p>
                         @if ($karyawan->status == 4)
-                            <p>Karyawan Aktif</p>
+                            <p class="text-danger">Keluar</p>
                         @else
-                            <p>Keluar</p>
+                            <p class="text-success">Karyawan Aktif</p>
                         @endif
                     </div>
                     <div class="contact-addresses">
                         <ul class="contact-address-list">
                             <li class="email">
-                                <a href="/pengurus/karyawan/edit/{{ $karyawan->id }}" class="btn btn-warning">Edit</a>
+                                <a href="/pengurus/karyawan/edit/{{ $karyawan->id }}" class="btn btn-warning mb-3">Edit</a>
+                                <br>
                                 @if ($karyawan->status == 4)
                                     <a href="/pengurus/karyawan/aktif/{{ $karyawan->id }}" data-toggle="modal" data-target="#karyawan_aktif" class="btn btn-success">Aktifkan Karyawan</a>
                                 @else

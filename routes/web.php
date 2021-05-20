@@ -70,7 +70,8 @@ Route::group(['prefix' => 'pengurus', 'middleware' => 'rolekoperasi'], function(
     Route::post('/karyawan/aktif/{id}', 'KaryawanKoperasiController@aktif');
     Route::get('/karyawan/nonaktif/{id}', 'KaryawanKoperasiController@nonAktif');
     Route::post('/karyawan/add', 'KaryawanKoperasiController@add');
-    Route::post('/karyawan/update/{id}', 'KaryawanKoperasiController@udpate');
+    Route::post('/karyawan/update/{id}', 'KaryawanKoperasiController@update');
+    Route::get('/karyawan/get/{id}', 'KaryawanKoperasiController@getKaryawanById');
 });
 
 //simpanan
@@ -89,6 +90,7 @@ Route::group(['prefix' => 'simpanan', 'middleware' => 'rolekoperasi'], function(
     Route::post('/penarikan/verifikasi/{id}', 'SimpananController@verifikasiPenarikanSimpanan');
     Route::post('/penarikan/upload/{id}', 'SimpananController@uploadBuktiPengiriman');
     Route::get('/export', 'SimpananController@export');
+    Route::post('/add/import', 'SimpananController@importData');
 });
 
 //pinjaman
@@ -110,6 +112,7 @@ Route::group(['prefix' => 'pinjaman', 'middleware' => 'rolekoperasi'], function(
     Route::get('/verifikasi/{id}', 'PinjamanController@formVerifikasiPinjaman');
     Route::post('/verifikasi/add/{id}', 'PinjamanController@addVerifikasiPinjaman');
     Route::post('/export', 'PinjamanController@export');
+    Route::post('/add/import', 'SimpananController@importData');
 });
 
 //kas
@@ -150,4 +153,17 @@ Route::group(['prefix' => 'kopmart', 'middleware' => 'rolekoperasi'], function()
 Route::group(['prefix' => 'pajak', 'middleware' => 'rolekoperasi'], function()
 {
     Route::get('/{id}', 'PajakController@getData');
+});
+
+Route::group(['prefix' => 'gaji', 'middleware' => 'rolekoperasi'], function()
+{
+    Route::get('/', 'PenggajianController@index');
+    Route::get('/detail/{id}', 'PenggajianController@detail');
+    Route::get('/tambah', 'PenggajianController@formTambah');
+    Route::get('/edit/{id}', 'PenggajianController@formEdit');
+    Route::get('/bukti/{id}', 'PenggajianController@formEditBuktiBayar');
+    Route::post('/tambah/potongan', 'PenggajianController@formTambahPotonganGaji');
+    Route::post('/add', 'PenggajianController@add');
+    Route::post('update/{id}', 'PenggajianController@update');
+    Route::post('/bukti/{id}', 'PenggajianController@updateBuktiBayar');
 });

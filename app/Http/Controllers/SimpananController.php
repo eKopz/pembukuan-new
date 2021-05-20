@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\SimpananExport;
 use App\Http\Controllers\Traits\ImageUpload;
+use App\Imports\SimpananImport;
 use App\model\Anggota;
 use App\model\JenisSimpanan;
 use App\model\PenarikanSimpanan;
@@ -21,6 +22,28 @@ class SimpananController extends Controller
     public function export()
     {
         return Excel::download(new SimpananExport, 'simpanan.xlsx');
+    }
+
+    public function importData(Request $request)
+    {
+        $message = [
+            'required' => ':attribute tidak boleh kosong !', 
+            'mimes:csv,xls,xlsx' => ':attribute hanya boleh diisi oleh format file csv, xls, xlsx !'
+        ];
+
+        $this->validate($request, [
+            'import_data' => 'required|mimes:csv,xls,xlsx'
+        ], $message);
+
+        $file = $request->file('import_data');
+
+        $nama_file = rand()."-simpanan-".$file->getClientOriginalName();
+
+        $file->move('excel', $nama_file);
+
+        Excel::import(new SimpananImport, public_path('/excel/'. $nama_file));
+
+        return redirect('/simpanan')->with('alert-success', 'berhasil tambah data');
     }
 
     public function rekap()

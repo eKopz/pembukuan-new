@@ -39,6 +39,9 @@
                     <a href="#" class="btn btn-rounded btn-warning" data-toggle="modal" data-target="#exportModal" style="margin-bottom: 20px"><span class="btn-icon-left text-warning">
                         <i class="fa fa-print color-info"></i> </span>Export Data</a>
 
+                    <a href="#" class="btn btn-rounded btn-secondary" style="margin-bottom: 20px;" data-toggle="modal" data-target="#importModal"><span class="btn-icon-left text-secondary">
+                        <i class="fa fa-file-excel-o color-info"></i> </span>Import Data</a>
+
                         <div class="table-responsive">
                             <table class="example-style display" style="min-width: 845px; color: black;">
                                 <thead>
@@ -136,6 +139,27 @@
                 </form>
             </div>
         </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="importModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Import Data</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/pinjaman/add/import" method="POST" enctype="multipart/form-data">
+                        @csrf 
+                        <input type="file" class="form-control" name="import_data">
+                        <button type="button" class="btn btn-secondary mt-5" data-dismiss="modal">Kembali</button>
+                        <input type="submit" class="btn btn-success mt-5" value="Import Data">
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

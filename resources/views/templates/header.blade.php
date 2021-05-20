@@ -115,7 +115,7 @@
             <li class="icons">
                 <a href="javascript:void(0)" class="log-user">
                     <?php // $foto = Auth::user()->foto; ?>
-                    <img src='{{ asset('assets/images/profile/1.jpg') }}' alt=""> <span>Pengurus</span>  <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
+                    <img @if (Session::get('foto') == null) src="{{ asset('assets/images/profile/1.jpg') }}" @else src="{{ Session::get('foto') }}" @endif alt=""> <span>Pengurus</span>  <i class="fa fa-caret-down f-s-14" aria-hidden="true"></i>
                 </a>
                 <div class="drop-down dropdown-profile animated bounceInDown">
                     <div class="dropdown-content-body">

@@ -1,4 +1,8 @@
 <div class="nk-nav-scroll">
+    <img @if (Session::get('foto') == null) src="{{ asset('assets/images/profile/1.jpg') }}" @else src="{{ Session::get('foto') }}" @endif style="max-width: 50%; height: 150px; object-fit: cover;" class="rounded-circle mx-auto d-block" alt="foto profile">
+    <p class="text-center text-dark mt-3">Pengurus</p>
+    <p class="text-center text-success">Online</p>
+
     <ul class="metismenu" id="menu">
         <li class="nav-label" style="color: #3d8b40">Menu</li>
         @if (Session::get('akses') == 1)
@@ -61,9 +65,9 @@
                     <i class="fa fa-bar-chart"></i><span class="nav-text">Laporan</span>
                 </a>
                 <ul aria-expanded="false">
+                    <li><a href="/gaji">Penggajian</a></li>
                     <li><a href="#">Laba Rugi</a></li>
                     <li><a href="#">SHU</a></li>
-                    <li><a href="#">Penggajian</a></li>
                 </ul>
             </li>
             <li class="mega-menu mega-menu-lg">
@@ -99,9 +103,9 @@
                     <i class="fa fa-bar-chart"></i><span class="nav-text">Laporan</span>
                 </a>
                 <ul aria-expanded="false">
+                    <li><a href="/gaji">Penggajian</a></li>
                     <li><a href="#">Laba Rugi</a></li>
                     <li><a href="#">SHU</a></li>
-                    <li><a href="#">Penggajian</a></li>
                 </ul>
             </li>
         @endif
