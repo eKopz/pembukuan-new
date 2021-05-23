@@ -2,6 +2,8 @@
 
 namespace App\Imports;
 
+use App\model\Anggota;
+use App\model\AngsuranPinjaman;
 use App\model\Pinjaman;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;

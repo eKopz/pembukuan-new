@@ -100,7 +100,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/pinjaman/add/import" method="POST" enctype="multipart/form-data">
+                    <form action="/simpanan/add/import" method="POST" enctype="multipart/form-data">
                         @csrf 
                         <input type="file" class="form-control" name="import_data">
                         <button type="button" class="btn btn-secondary mt-5" data-dismiss="modal">Kembali</button>

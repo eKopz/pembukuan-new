@@ -129,7 +129,7 @@
                             <p class="text-dark">Transport</p>
                         </div>
                         <div class="col-4">
-                            <p class="text-dark text-right">Rp. {{ number_format($gaji->Transport,0,',','.') }}</p>
+                            <p class="text-dark text-right">Rp. {{ number_format($gaji->transport,0,',','.') }}</p>
                         </div>
                     </div>
                 </div>

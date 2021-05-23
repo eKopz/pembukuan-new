@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\model\Anggota;
 use App\model\Simpanan;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -19,7 +20,7 @@ class SimpananImport implements ToCollection, WithHeadingRow
             $anggota = Anggota::where('no_anggota', $row['no_anggota'])->first();
 
             if ($anggota != null) {
-                $anggota->simpanan += $row['simpanan_sukarela'];
+                $anggota->simpanan += $row['simpanan_manasuka'];
                 $anggota->simpanan_wajib += $row['simpanan_wajib'];
                 $anggota->simpanan_pokok += $row['simpanan_pokok'];
                 $anggota->save();

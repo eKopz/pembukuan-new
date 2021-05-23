@@ -1,6 +1,6 @@
 @extends('templates.index')
 
-@section('title', 'ekopz | Kas')
+@section('title', 'ekopz | Pengurus')
 
 @section('content-title')
     <div class="col p-0">
@@ -97,7 +97,7 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Input Rentang Bulan</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Pilih Bulan</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -108,25 +108,18 @@
                     $min = $year - 60;
                     $max = $year;     
                 ?>
-                <form action="/kas/export" method="POST">
+                <form action="/gaji/export" method="POST">
                     @csrf
 
                     <label class="text-label">Tahun</label>
-                    <select name="tahun" class="form-control mb-4">
+                    <select name="year" class="form-control mb-4">
                         @for ($i=$max; $i>=$min; $i--)
                             <option value="{{ $i }}">{{ $i }}</option>
                         @endfor
                     </select>
                     
-                    <label class="text-label">Mulai Bulan</label>
-                    <select name="mulai" class="form-control mb-4">
-                        @for ($i=1; $i<=12; ++$i)
-                            <option value="{{ $i }}">{{ date('F', mktime(0, 0, 0, $i, 1)) }}</option>
-                        @endfor
-                    </select>
-                    
-                    <label class="text-label">Sampai Bulan</label>
-                    <select name="selesai" class="form-control mb-4">
+                    <label class="text-label">Bulan</label>
+                    <select name="month" class="form-control mb-4">
                         @for ($i=1; $i<=12; ++$i)
                             <option value="{{ $i }}">{{ date('F', mktime(0, 0, 0, $i, 1)) }}</option>
                         @endfor

@@ -112,7 +112,7 @@ Route::group(['prefix' => 'pinjaman', 'middleware' => 'rolekoperasi'], function(
     Route::get('/verifikasi/{id}', 'PinjamanController@formVerifikasiPinjaman');
     Route::post('/verifikasi/add/{id}', 'PinjamanController@addVerifikasiPinjaman');
     Route::post('/export', 'PinjamanController@export');
-    Route::post('/add/import', 'SimpananController@importData');
+    Route::post('/add/import', 'PinjamanController@importData');
 });
 
 //kas
@@ -166,4 +166,5 @@ Route::group(['prefix' => 'gaji', 'middleware' => 'rolekoperasi'], function()
     Route::post('/add', 'PenggajianController@add');
     Route::post('update/{id}', 'PenggajianController@update');
     Route::post('/bukti/{id}', 'PenggajianController@updateBuktiBayar');
+    Route::post('/export', 'PenggajianController@export');
 });

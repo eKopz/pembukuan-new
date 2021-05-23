@@ -63,7 +63,10 @@ class PinjamanController extends Controller
                     join('pinjaman', 'angsuran_pinjaman.id_pinjaman', '=', 'pinjaman.id')
                     ->select('angsuran_pinjaman.*', 'pinjaman.id_koperasi as id_koperasi')
                     ->where('pinjaman.id_koperasi', Session::get('id_koperasi'))
-                    ->where('pinjaman.status', 2)
+                    ->where(function($query)
+                    {
+                        $query->where('pinjaman.status', 2)->orWhere('pinjaman.status', 3);
+                    })
                     ->orderBy('angsuran_pinjaman.id', 'DESC')
                     ->paginate(10);
 
@@ -227,9 +230,12 @@ class PinjamanController extends Controller
 
         $jumlah_angsuran = $angsuran + $jasa;
 
+        $cicilan_now = $pinjaman->jumlah_cicilan + $cicilan;
+
         // if ($request->jumlah != $jumlah_angsuran) {
         //     return redirect('/pinjaman/angsuran/tambah')->with('alert-danger', 'jumlah tidak sesuai dengan total angsuran. angsuran yang harus dibayar: Rp. '.number_format($jumlah_angsuran,0,',','.'));
         // } else {
+
         $angsuran_pinjaman = AngsuranPinjaman::create([
             'id_pinjaman' => $request->id_pinjaman,
             'jumlah' => $jumlah_angsuran,
@@ -252,6 +258,12 @@ class PinjamanController extends Controller
         $angsuran_pinjaman->angsuran += $pinjaman->angsuran;
 
         $angsuran_pinjaman->save();
+        
+        if ($pinjaman->jumlah_cicilan == $pinjaman->angsuran) {
+            $pinjaman->status = 3;
+            
+            $pinjaman->save();
+        }
 
         return redirect('/pinjaman')->with('alert-success', 'angsuran berhasil ditambah');
         // }

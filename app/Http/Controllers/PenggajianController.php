@@ -2,17 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PenggajianExport;
 use App\Http\Controllers\Traits\ImageUpload;
+use App\model\Anggota;
+use App\model\AngsuranPinjaman;
 use App\model\Gaji;
 use App\model\KaryawanKoperasi;
 use App\model\Pinjaman;
 use App\model\PotongGaji;
+use App\model\Simpanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PenggajianController extends Controller
 {
     use ImageUpload;
+
+    public function export(Request $request)
+    {
+        $this->validate($request, [
+            'year' => 'required',
+            'month' => 'required'
+        ]);
+
+        return Excel::download(new PenggajianExport($request->month, $request->year), 'Gaji.xlsx');
+    }
 
     public function index()
     {
@@ -92,7 +107,7 @@ class PenggajianController extends Controller
 
         $total = $get_sub_total - $jumlah_potongan;
 
-        Gaji::create([
+        $gaji = Gaji::create([
             'id_karyawan_koperasi' => $request->id_karyawan_koperasi,
             'makan' => $request->makan,
             'transport' => $request->transport,
@@ -111,6 +126,81 @@ class PenggajianController extends Controller
             'bukti' => null,
             'keterangan' => null,
         ]);
+
+        $anggota = Anggota::find($karyawan->id_anggota);
+
+        if ($anggota != null) {
+            //potongan pinjaman
+
+            if ($request->potongan_pinjaman > 0) {
+                $pinjaman = Pinjaman::where('id_angoota', $karyawan->anggota->id)->where('status', 2)->first();
+                
+                $jasa = $request->potongan_pinjaman * 1/100;
+    
+                $jumlah_angsuran = $request->potongan_pinjaman + $jasa;
+                
+                $angsuran_pinjaman = AngsuranPinjaman::create([
+                    'id_pinjaman' => $pinjaman->id,
+                    'jumlah' => $jumlah_angsuran,
+                    'saldo' => 0,
+                    'angsuran' => 0,
+                ]);
+                
+                $cicilan = 1;
+    
+                $anggota->pinjaman -= $request->potongan_pinjaman; 
+    
+                $anggota->save();
+    
+                $pinjaman->angsuran += $cicilan;
+    
+                $pinjaman->save();
+    
+                $angsuran_pinjaman->saldo = $anggota->pinjaman;
+    
+                $angsuran_pinjaman->angsuran += $pinjaman->angsuran;
+    
+                $angsuran_pinjaman->save();
+            }
+
+            //potongan simpanan
+    
+            $anggota->simpanan += $request->potongan_simpanan;
+            $anggota->simpanan_wajib += $request->potongan_simpanan_wajib;
+            $anggota->simpanan_pokok += $request->potongan_simpanan_pokok;
+            $anggota->save();
+
+            if ($request->potongan_simpanan > 0) {
+                Simpanan::create([
+                    'id_koperasi' => Session::get('id_koperasi'),
+                    'id_anggota' => $anggota->id,
+                    'id_jenis_simpanan' => 1,
+                    'jumlah' => $request->potongan_simpanan,
+                    'status' => 1,
+                    'saldo' => $anggota->simpanan,
+                ]);               
+            }
+            if ($request->potongan_simpanan_pokok > 0) {
+                Simpanan::create([
+                    'id_koperasi' => Session::get('id_koperasi'),
+                    'id_anggota' => $anggota->id,
+                    'id_jenis_simpanan' => 2,
+                    'jumlah' => $request->potongan_simpanan_pokok,
+                    'status' => 1,
+                    'saldo' => $anggota->simpanan_pokok,
+                ]); 
+            }
+            if ($request->potongan_simpanan_wajib > 0) {
+                Simpanan::create([
+                    'id_koperasi' => Session::get('id_koperasi'),
+                    'id_anggota' => $anggota->id,
+                    'id_jenis_simpanan' => 3,
+                    'jumlah' => $request->potongan_simpanan_wajib,
+                    'status' => 1,
+                    'saldo' => $anggota->simpanan_wajib,
+                ]); 
+            }
+        }
 
         return redirect('/gaji')->with('alert-success', 'berhasil tambah data gaji !');
     }
