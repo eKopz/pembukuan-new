@@ -39,6 +39,8 @@ class ProfileController extends Controller
 
         $koperasi->jam_tutup = $request->jam_tutup;
 
+        $koperasi->syarat = $request->syarat;
+
         $koperasi->save();
 
         return redirect('/profile')->with('success', 'data berhasil di update !');

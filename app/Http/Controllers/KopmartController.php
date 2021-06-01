@@ -71,6 +71,7 @@ class KopmartController extends Controller
             'id_users' => $user->id,
             'id_koperasi' => Session::get('id_koperasi'),
             'id_kategori_toko' => $request->id_kategori_toko,
+            'level' => 1,
         ]);
 
         return redirect('/kopmart')->with('alert-success', 'berhasil tambah data !');

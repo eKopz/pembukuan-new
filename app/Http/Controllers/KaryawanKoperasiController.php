@@ -42,7 +42,7 @@ class KaryawanKoperasiController extends Controller
 
     public function formTambah()
     {
-        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->get();
+        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->get();
 
         $pajak = Pajak::all();
 
@@ -51,7 +51,7 @@ class KaryawanKoperasiController extends Controller
 
     public function formEdit($id)
     {
-        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->get();
+        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->get();
 
         $karyawan = KaryawanKoperasi::join('potong_gaji', 'karyawan_koperasi.potong_gaji', 'potong_gaji.id')
             ->join('pajak', 'karyawan_koperasi.id_pajak', 'pajak.id')

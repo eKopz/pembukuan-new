@@ -117,9 +117,9 @@
                     <div class="profile-tab">
                         <div class="custom-tab-1">
                             <ul class="nav nav-tabs">
-                                <li class="nav-item"><a href="#about-me" data-toggle="tab" class="nav-link active show">Profile Toko</a>
+                                <li class="nav-item"><a href="#about-me" data-toggle="tab" class="nav-link active show">Profile Koperasi</a>
                                 </li>
-                                <li class="nav-item"><a href="#profile-settings" data-toggle="tab" class="nav-link">Update Data Toko</a>
+                                <li class="nav-item"><a href="#profile-settings" data-toggle="tab" class="nav-link">Update Data Koperasi</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
@@ -183,6 +183,12 @@
                                             {{ $koperasi->deskripsi != null ? $koperasi->deskripsi : $notfound }}
                                         </div>
                                     </div>
+                                    <div class="border-bottom-1 pt-5">
+                                        <h4 class="text-success mb-4">Syarat Koperasi</h4>
+                                        <div class="mb-4 ml-1">
+                                            {!! $koperasi->syarat != null ? $koperasi->syarat : $notfound !!}
+                                        </div>
+                                    </div>
                                 </div>
                                 <div id="profile-settings" class="tab-pane fade">
                                     <div class="pt-3">
@@ -214,7 +220,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Deskripsi Koperasi</label>
-                                                    <input type="text" name="deskripsi" value="{{ $koperasi->deksripsi != null ? $koperasi->deksripsi : null }}" class="form-control">
+                                                    <input type="text" name="deskripsi" value="{{ $koperasi->deskripsi != null ? $koperasi->deskripsi : null }}" class="form-control">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Jam Buka</label>
@@ -223,6 +229,16 @@
                                                 <div class="form-group">
                                                     <label>Jam Tutup</label>
                                                     <input type="text" name="jam_tutup" value="{{ $koperasi->jam_tutup != null ? $koperasi->jam_tutup : null }}" class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="text-label">Syarat Koperasi</label>
+                                                    <textarea class="ckeditor" name="syarat" id="ck_edtor">{!! $koperasi->syarat !!}</textarea>
+                              
+                                                    @if($errors->has('syarat'))
+                                                      <div class="text-danger">
+                                                        {{ $errors->first('syarat') }}
+                                                      </div>
+                                                    @endif
                                                 </div>
                                                 
                                                 <input type="submit" class="btn btn-success" value="Update Data">
