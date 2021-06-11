@@ -8,7 +8,7 @@ class Pinjaman extends Model
 {
     protected $table = "pinjaman";
 
-    protected $fillable = ['id_koperasi', 'id_anggota', 'keterangan', 'jumlah_pinjaman', 'jumlah_cicilan', 'status', 'angsuran'];
+    protected $fillable = ['id_koperasi', 'id_anggota', 'slip_gaji', 'ktp', 'surat_pernyataan', 'keterangan', 'jumlah_pinjaman', 'jumlah_cicilan', 'status', 'angsuran'];
 
     public function anggota()
     {

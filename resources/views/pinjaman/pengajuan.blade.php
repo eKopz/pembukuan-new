@@ -61,9 +61,9 @@
                                         <td>{{ $item->jumlah_cicilan }}x</td>
                                         <td>
                                             @if ($item->status == 1)
-                                                <span class="badge badge-danger">Belum Diverifikasi</span>
+                                                <span class="badge badge-warning">Belum Diverifikasi</span>
                                             @elseif ($item->status == 2)
-                                                <span class="badge badge-warning">Sudah Diverifikasi</span>
+                                                <span class="badge badge-success">Sudah Diverifikasi</span>
                                             @elseif ($item->status == 3)
                                                 <span class="badge badge-success">Selesai</span>
                                             @else
@@ -74,10 +74,8 @@
                                             @if ($item->status == 1)
                                                 <a href="/pinjaman/pengajuan/detail/{{ $item->id }}" class="btn btn-warning btn-xs">Detail</a>
                                                 <a href="/pinjaman/verifikasi/{{ $item->id }}" class="btn btn-success btn-xs">Verifikasi</a>
-                                            @elseif ($item->status == 2)
-                                                <a href="/pinjaman/pengajuan/detail/{{ $item->id }}" class="btn btn-warning btn-xs">Detail</a>
                                             @else
-                                                ...
+                                                <a href="/pinjaman/pengajuan/detail/{{ $item->id }}" class="btn btn-warning btn-xs">Detail</a>
                                             @endif
                                             
                                         </td>

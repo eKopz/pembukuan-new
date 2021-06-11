@@ -54,11 +54,13 @@
                             <div class="my-3 mt-4">
                                 <p class="mb-0">Status Pinjaman</p>
                                 @if ($pinjaman->status == 1)
-                                    <h4 class="text-danger">Belum Disetujui</h4>
+                                    <h4 class="text-warning">Belum Disetujui</h4>
                                 @elseif ($pinjaman->status == 2)
                                     <h4 class="text-success">Sudah Disetujui</h4>
-                                @else
+                                @elseif ($pinjaman->status == 3)
                                     <h4 class="text-success">Selesai</h4>
+                                @else
+                                    <h4 class="text-danger">Ditolak</h4>
                                 @endif
                                 
                             </div>
@@ -142,6 +144,83 @@
 
     <div class="row">
         <div class="col">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row pt-3">
+                        <div class="col">
+                            <div class="records-collection-2">
+                                <table class="table table-dark table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-1"><h5><b>Slip Gaji</b></h5></td>
+                                            <td class="text-right py-1">
+                                                @if ($pinjaman->slip_gaji == null)
+                                                    <h4><b><span class="badge badge-pill badge-danger">Belum Di Upload</span></b></h4>
+                                                @else
+                                                    <span><a href="{{ $pinjaman->slip_gaji }}" target="_blank"><h4><b><span class="badge badge-pill badge-success">Download</span></b></h4></a></span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row pt-3">
+                        <div class="col">
+                            <div class="records-collection-2">
+                                <table class="table table-dark table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-1"><h5><b>Fotocopy KTP</b></h5></td>
+                                            <td class="text-right py-1">
+                                                @if ($pinjaman->ktp == null)
+                                                    <h4><b><span class="badge badge-pill badge-danger">Belum Di Upload</span></b></h4>
+                                                @else
+                                                    <span><a href="{{ $pinjaman->ktp }}" target="_blank"><h4><b><span class="badge badge-pill badge-success">Download</span></b></h4></a></span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row pt-3">
+                        <div class="col">
+                            <div class="records-collection-2">
+                                <table class="table table-dark table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-1"><h5><b>Surat Pernyataan</b></h5></td>
+                                            <td class="text-right py-1">
+                                                @if ($pinjaman->surat_pernyataan == null)
+                                                    <h4><b><span class="badge badge-pill badge-danger">Belum Di Upload</span></b></h4>
+                                                @else
+                                                    <span><a href="{{ $pinjaman->surat_pernyataan }}" target="_blank"><h4><b><span class="badge badge-pill badge-success">Download</span></b></h4></a></span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Keterangan</h4>
@@ -150,6 +229,49 @@
                             <textarea name="keterangan" class="form-control" cols="30" rows="10" readonly>{{ $pinjaman->keterangan }}</textarea>
                         </form>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col">
+        @if ($pinjaman->status == 1)
+            <a href="#" class="btn btn-success btn-sm btn-block" data-toggle="modal" data-target="#modalVerifikasi">Verifikasi Pengajuan Pinjaman</a>
+        @endif
+            
+        </div>
+    </div>
+
+    <!-- Modal verifikasi -->
+    <div class="modal fade" id="modalVerifikasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Verifikasi Pengajuan Pinjaman</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/pinjaman/verifikasi/add/{{ $pinjaman->id }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label class="text-label">Verifikasi Pengajuan</label>
+                            <select class="form-control" name="verifikasi">
+                                <option value="1">Setuju</option>
+                                <option value="2">Tolak</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-label">Keterangan</label>
+                            <textarea name="keterangan" class="form-control" cols="30" rows="10"></textarea>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                        <button type="button" class="btn btn-Warning" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Verifikasi Pinjaman</button>
+                    </form>
                 </div>
             </div>
         </div>

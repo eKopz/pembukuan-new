@@ -6,17 +6,19 @@ use App\Exports\PinjamanExport;
 use App\Imports\PinjamanImport;
 use App\model\Anggota;
 use App\model\AngsuranPinjaman;
+use App\model\Pengguna;
 use App\model\Pinjaman;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PinjamanController extends Controller
 {
-
     public function export(Request $request)
     {
         $this->validate($request, [
@@ -197,22 +199,36 @@ class PinjamanController extends Controller
     public function addPinjaman(Request $request)
     {
         $message = [
-            'required' => ':attribute tidak boleh kosong !',
-            'numeric' => ':attribute hanya boleh diisi oleh type number !'
+            'required' => ':attribute tidak boleh kosong !', 
+            'numeric' => ':attribute hanya boleh diisi oleh angka !', 
+            'mimes:pdf,xlsx,csv' => ':attribute hanya boleh diisi oleh file ber-ektensi PDF, XLSX, dan CSV !', 
+            'max:2048' => 'file upload tidak boleh melebihi ukuran 2 MB !'
         ];
 
         $this->validate($request, [
-            'jumlah' => 'required|numeric'
+            'jumlah' => 'required|numeric',
+            'cicilan' => 'required|numeric',
+            'slip_gaji' => 'required|mimes:pdf,xlsx,csv|max:2048',
+            'ktp' => 'required|mimes:pdf,xlsx,csv|max:2048',
+            'surat_pernyataan' => 'required|mimes:pdf,xlsx,csv|max:2048',
         ]);
 
-        Pinjaman::create([
-            'id_koperasi' => Session::get('id_koperasi'),
-            'id_anggota' => $request->id_anggota,
-            'status' => 1,
-            'jumlah_pinjaman' => $request->jumlah,
-            'jumlah_cicilan' => $request->cicilan,
-            'angsuran' => 0,
-            'keterangan' => $request->keterangan
+        $anggota = Anggota::find($request->id_anggota);
+
+        $pengguna = Pengguna::find($anggota->id_pengguna);
+        
+        $user = User::find($pengguna->id_users);
+
+        $url = 'https://api.ekopz.id/api/mykoperasi/pinjaman/tambah/'.$user->id.'/'.Session::get('id_koperasi');
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '.$user->token
+        ])->attach('slip_gaji', fopen($request->slip_gaji, 'r'))
+        ->attach('ktp', fopen($request->ktp, 'r'))
+        ->attach('surat_pernyataan', fopen($request->surat_pernyataan, 'r'))
+        ->post($url, [
+            'jumlah' => $request->jumlah,
+            'cicilan' => $request->cicilan,
         ]);
 
         return redirect('/pinjaman/pengajuan')->with('alert-success', 'pengajuan pinjaman berhasil ditambah!');
@@ -280,9 +296,16 @@ class PinjamanController extends Controller
 
             $anggota->pinjaman += $pinjaman->jumlah_pinjaman;
 
+            $pinjaman->keterangan = $request->keterangan;
+
             $pinjaman->save();
 
             $anggota->save();
+
+            //push notification pinjaman approve
+            $url = "https://api.ekopz.id/api/notification/pinjaman/approve/$pinjaman->id/".$anggota->pengguna->id_users;
+
+            Http::get($url);
 
             return redirect('/pinjaman/pengajuan')->with('alert-success', 'verifikasi pinjaman berhasil di setujui oleh pengurus !');
         } 
@@ -291,7 +314,14 @@ class PinjamanController extends Controller
 
             $pinjaman->status = 4;
 
+            $pinjaman->keterangan = $request->keterangan;
+
             $pinjaman->save();
+
+            //push notification pinjaman not approved
+            $url = "https://api.ekopz.id/api/notification/pinjaman/notapproved/$pinjaman->id/".$pinjaman->anggota->pengguna->id_users;
+
+            Http::get($url);
 
             return redirect('/pinjaman/pengajuan')->with('alert-success', 'verifikasi pinjaman berhasil di tolak !');
         } 

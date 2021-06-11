@@ -83,6 +83,39 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="text-label">Dokumen Slip Gaji</label>
+                        <input type="file" class="form-control" name="slip_gaji">
+
+                        @if($errors->has('slip_gaji'))
+                            <div class="text-danger">
+                              {{ $errors->first('slip_gaji') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                        <label class="text-label">Dokumen Fotocopy KTP</label>
+                        <input type="file" class="form-control" name="ktp">
+
+                        @if($errors->has('ktp'))
+                            <div class="text-danger">
+                              {{ $errors->first('ktp') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                        <label class="text-label">Dokumen Surat Pernyataan</label>
+                        <input type="file" class="form-control" name="surat_pernyataan">
+
+                        @if($errors->has('surat_pernyataan'))
+                            <div class="text-danger">
+                              {{ $errors->first('surat_pernyataan') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="form-group">
                         <label class="text-label">Keterangan (opsional)</label>
                         <input type="text" class="form-control" name="keterangan">
                     </div>
