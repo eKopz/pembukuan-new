@@ -24,6 +24,12 @@ Route::get('/register', 'AuthController@formRegister');
 Route::post('/register/proses', 'AuthController@register');
 Route::post('/logout', 'AuthController@logout')->name('logout');
 
+Route::group(['prefix' => 'auth/google'], function()
+{
+    Route::get('/', 'GoogleController@redirectToGoogle');
+    Route::get('/callback', 'GoogleController@handleGoogleCallback');
+});
+
 
 //anggota
 Route::group(['prefix' => 'anggota', 'middleware' => 'rolekoperasi'], function()

@@ -76,16 +76,19 @@
                               </form>
                               <div class="text-center">
                                   <h5 class="mb-5">Or with Login</h5>
-                                  <ul class="list-inline">
+                                  <a href="/auth/google" class="btn btn-block btn-danger">
+                                      <i class="fa fa-google-plus"></i> Google
+                                  </a>
+                                  {{-- <ul class="list-inline">
                                       <li class="list-inline-item m-t-10"><a href="javascript:void()" class="btn btn-facebook"><i class="fa fa-facebook"></i></a>
                                       </li>
                                       <li class="list-inline-item m-t-10"><a href="javascript:void()" class="btn btn-twitter"><i class="fa fa-twitter"></i></a>
                                       </li>
                                       <li class="list-inline-item m-t-10"><a href="javascript:void()" class="btn btn-linkedin"><i class="fa fa-linkedin"></i></a>
                                       </li>
-                                      <li class="list-inline-item m-t-10"><a href="javascript:void()" class="btn btn-google-plus"><i class="fa fa-google-plus"></i></a>
+                                      <li class="list-inline-item-block"><a href="/auth/google" class="btn btn-google"><i class="fa fa-google"></i></a>
                                       </li>
-                                  </ul>
+                                  </ul> --}}
                                   <p class="mt-5">Dont have an account? <a href="/register">Register Now</a>
                                   </p>
                               </div>
