@@ -68,7 +68,7 @@ class PenggajianController extends Controller
     {
         $gaji = Gaji::find($id);
 
-        $get_sub_total = $gaji->karyawan_koperasi->gaji_pokok + $gaji->makan + $gaji->transport + $gaji->insentif + $gaji->rapel + $gaji->jamsostek;
+        $get_sub_total = $gaji->karyawan_koperasi->gaji_pokok + $gaji->makan + $gaji->transport + $gaji->insentif + $gaji->lembur + $gaji->rapel + $gaji->jamsostek;
 
         $sub_total_tahun = $get_sub_total * 12;
         
@@ -101,7 +101,7 @@ class PenggajianController extends Controller
 
         $karyawan = KaryawanKoperasi::find($request->id_karyawan_koperasi);
 
-        $get_sub_total = $request->gaji_pokok + $request->makan + $request->transport + $request->insentif + $request->rapel + $request->jamsostek;
+        $get_sub_total = $request->gaji_pokok + $request->makan + $request->transport + $request->insentif  + $request->lembur + $request->rapel + $request->jamsostek;
 
         $jumlah_potongan = $request->potongan_simpanan + $request->potongan_simpanan_wajib + $request->potongan_simpanan_pokok + $request->potongan_pinjaman + $request->mangkir + $request->jamsostek;  
 
@@ -113,6 +113,7 @@ class PenggajianController extends Controller
             'transport' => $request->transport,
             'insentif' => $request->insentif,
             'rapel' => $request->rapel,
+            'lembur' => $request->lembur,
             'jamsostek' => $request->jamsostek,
             'status' => 1,
             'id_koperasi' => Session::get('id_koperasi'), 
@@ -220,9 +221,9 @@ class PenggajianController extends Controller
             'jamsostek' => 'required|numeric',
         ], $message);
 
-        $makan = $request->makan * 12500;
+        $makan = $request->makan;
 
-        $transport = $request->transport * 12500;
+        $transport = $request->transport;
 
         $insentif = $request->insentif;
 
@@ -230,12 +231,14 @@ class PenggajianController extends Controller
 
         $jamsostek = $request->jamsostek;
 
+        $lembur = $request->lembur;
+
         $karyawan = KaryawanKoperasi::join('potong_gaji', 'karyawan_koperasi.potong_gaji', 'potong_gaji.id')
             ->select('karyawan_koperasi.*', 'potong_gaji.simpanan as simpanan', 'potong_gaji.simpanan_pokok as simpanan_pokok', 'potong_gaji.simpanan_wajib as simpanan_wajib', 'potong_gaji.pinjaman as pinjaman')
             ->where('karyawan_koperasi.id', $request->id_karyawan_koperasi)
             ->first();
 
-        $get_sub_total = $karyawan->gaji_pokok + $makan + $transport + $insentif + $rapel + $jamsostek;
+        $get_sub_total = $karyawan->gaji_pokok + $makan + $transport + $insentif + $rapel + $lembur + $jamsostek;
 
         $sub_total_tahun = $get_sub_total * 12;
         
@@ -259,7 +262,7 @@ class PenggajianController extends Controller
             $jumlah_pinjaman = 0;
         }
 
-        return view('penggajian.tambah2', compact('makan', 'transport', 'insentif', 'rapel', 'jamsostek', 'karyawan', 'pph', 'jumlah_pinjaman', 'get_sub_total'));
+        return view('penggajian.tambah2', compact('makan', 'transport', 'insentif', 'rapel', 'lembur', 'jamsostek', 'karyawan', 'pph', 'jumlah_pinjaman', 'get_sub_total'));
     }
 
     public function updateBuktiBayar(Request $request, $id)
@@ -298,12 +301,13 @@ class PenggajianController extends Controller
             'transport' => 'required|numeric', 
             'insentif' => 'required|numeric', 
             'rapel' => 'required|numeric', 
+            'lembur' => 'required|numeric',
             'jamsostek' => 'required|numeric',
         ], $message);
 
         $gaji = Gaji::find($id);
 
-        $sub_total_gaji = $gaji->gaji_pokok + $request->makan + $request->transport + $request->insentif + $request->rapel + $request->jamsostek;
+        $sub_total_gaji = $gaji->gaji_pokok + $request->makan + $request->transport + $request->insentif + $request->rapel + $request->lembur + $request->jamsostek;
 
         $sub_total_tahun = $sub_total_gaji * 12;
         
@@ -339,6 +343,8 @@ class PenggajianController extends Controller
 
         $gaji->rapel = $request->rapel;
 
+        $gaji->lembur = $request->lembur;
+
         $gaji->jamsostek = $request->jamsostek;
 
         $gaji->status = $request->status;
@@ -366,7 +372,7 @@ class PenggajianController extends Controller
 
         $gaji = Gaji::find($id);
 
-        $sub_total_gaji = $gaji->gaji_pokok + $gaji->makan + $gaji->transport + $gaji->insentif + $gaji->rapel + $gaji->jamsostek;
+        $sub_total_gaji = $gaji->gaji_pokok + $gaji->makan + $gaji->transport + $gaji->insentif + $gaji->rapel + $gaji->lembur + $gaji->jamsostek;
 
         $sub_total_tahun = $sub_total_gaji * 12;
         

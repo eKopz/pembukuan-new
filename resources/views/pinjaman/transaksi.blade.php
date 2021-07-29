@@ -29,7 +29,7 @@
                             <div class="media-body">
                                 <h5 class="mt-2 text-pale-sky">{{ $item->pinjaman->anggota->nama }}</h5>
                                 <h6 class="text-success mb-0">Angsuran Pinjaman</h6>
-                                <h6 class="text-muted mb-0">{{ $item->created_at }}</h6>
+                                <h6 class="text-muted mb-0">{{ $item->created_at->format('d M Y H:i:s') }}</h6>
                             </div>
                             <p class="text-muted mt-4 font-small">+ Rp. {{ number_format($item->jumlah,0,',','.') }}</p>
                         </div>

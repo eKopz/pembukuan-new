@@ -31,6 +31,32 @@
           <div class="row">
             <div class="col-sm-6 col-lg-4 col-xl-6 col-xxl-4">
                 <div class="card">
+                    <div class="card-body widget-school-stat bg-1 rounded">
+                        <div class="text">
+                            <h2>{{ $anggota_aktif }}</h2>
+                            <p>Total Anggota Aktif</p>
+                        </div>
+                        <div class="icon">
+                            <span><i class="fa fa-users"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xl-6 col-xxl-4">
+                <div class="card">
+                    <div class="card-body widget-school-stat bg-5 rounded" style="background-color: red">
+                        <div class="text">
+                            <h2>{{ $anggota_nonaktif }}</h2>
+                            <p>Total Anggota Keluar</p>
+                        </div>
+                        <div class="icon">
+                            <span><i class="fa fa-users"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xl-6 col-xxl-4">
+                <div class="card">
                     <div class="card-body widget-school-stat bg-5 rounded" style="background-color: red">
                         <div class="text">
                             <h2>{{ $pengajuan_pinjaman }}</h2>

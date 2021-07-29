@@ -8,7 +8,7 @@ class Gaji extends Model
 {
     protected $table = 'gaji';
 
-    protected $fillable = ['id_karyawan_koperasi', 'makan', 'transport', 'insentif', 'rapel', 'jamsostek', 'status', 'id_koperasi', 'potongan_simpanan', 'potongan_simpanan_pokok', 'potongan_simpanan_wajib', 'potongan_pinjaman', 'mangkir', 'total_gaji', 'metode', 'bukti', 'keterangan'];
+    protected $fillable = ['id_karyawan_koperasi', 'makan', 'transport', 'insentif', 'lembur', 'rapel', 'jamsostek', 'status', 'id_koperasi', 'potongan_simpanan', 'potongan_simpanan_pokok', 'potongan_simpanan_wajib', 'potongan_pinjaman', 'mangkir', 'total_gaji', 'metode', 'bukti', 'keterangan'];
 
     public function karyawan_koperasi()
     {

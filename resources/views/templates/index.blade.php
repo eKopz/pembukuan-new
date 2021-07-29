@@ -43,7 +43,7 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo"><a href="index.html"><b><img src="{{asset('assets/images/ekopz-admin.png')}}" alt="" style="width: 100px; margin-top: 10px;"> </b></a>
+            <div class="brand-logo"><a href="#"><b><img src="{{ Session::get('foto') }}" alt="" style="width: 60px;"> </b></a>
             </div>
             <div class="nav-control">
                 <div class="hamburger"><span class="line"></span>  <span class="line"></span>  <span class="line"></span>

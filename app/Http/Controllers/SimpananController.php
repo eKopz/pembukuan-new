@@ -12,6 +12,7 @@ use App\model\Simpanan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -162,73 +163,35 @@ class SimpananController extends Controller
             'id_anggota' => $request->id_anggota,
             'id_jenis_simpanan' => $request->jenis,
             'jumlah' => $request->jumlah,
-            'status' => $request->status,
+            'status' => 1,
             'saldo' => 0,
         ]);
 
         $anggota = Anggota::find($request->id_anggota);
 
-        if ($request->status == 1) {
-            if ($request->jenis == 1) {
-                $anggota->simpanan += $request->jumlah;
+        if ($request->jenis == 1) {
+            $anggota->simpanan += $request->jumlah;
 
-                $anggota->save();
+            $simpanan->saldo = $anggota->simpanan;
+        } 
+        if ($request->jenis == 2) {
+            $anggota->simpanan_pokok += $request->jumlah;
 
-                $simpanan->saldo = $anggota->simpanan;
-
-                $simpanan->save();
-            } 
-            elseif ($request->jenis == 2) {
-                $anggota->simpanan_pokok += $request->jumlah;
-
-                $anggota->save();
-
-                $simpanan->saldo = $anggota->simpanan_pokok;
-
-                $simpanan->save();
-            }
-            else {
-                $anggota->simpanan_wajib += $request->jumlah; 
-
-                $anggota->save();
-
-                $simpanan->saldo = $anggota->simpanan_wajib;
-
-                $simpanan->save();
-            }
+            $simpanan->saldo = $anggota->simpanan_pokok;
         }
-        else {
-            if ($request->jenis == 1 && $anggota->simpanan >= $request->jumlah) {
-                $anggota->simpanan -= $request->jumlah;
+        if ($request->jenis == 3) {
+            $anggota->simpanan_wajib += $request->jumlah; 
 
-                $anggota->save();
-
-                $simpanan->saldo = $anggota->simpanan;
-
-                $simpanan->save();
-            } 
-            elseif ($request->jenis == 2 && $anggota->simpanan_pokok >= $request->jumlah) {
-                $anggota->simpanan_pokok -= $request->jumlah;
-                
-                $anggota->save();
-
-                $simpanan->saldo = $anggota->simpanan_pokok;
-
-                $simpanan->save();
-            }
-            elseif ($request->jenis == 3 && $anggota->simpanan_wajib >= $request->jumlah) {
-                $anggota->simpanan_wajib -= $request->jumlah; 
-
-                $anggota->save();
-
-                $simpanan->saldo = $anggota->simpanan_wajib;
-
-                $simpanan->save();
-            }
-            else {
-                return redirect('/simpanan/tambah')->with('alert-danger', 'jumlah penarikan simpanan melebihi simpanan yang ada ! ');
-            }
+            $simpanan->saldo = $anggota->simpanan_wajib;
         }
+
+        $anggota->save();
+
+        $simpanan->save();
+
+        $url = "https://api.ekopz.id/api/notification/simpanan/success/$simpanan->id/".$anggota->pengguna->id_users;
+
+        Http::get($url);
 
         return redirect('/simpanan')->with('alert-success', 'berhasil tambah data');
     }
@@ -261,6 +224,18 @@ class SimpananController extends Controller
             $anggota->simpanan -= $simpanan->jumlah;
 
             $anggota->save();
+
+            //push notification
+            $url = "https://api.ekopz.id/api/notification/simpanan/penarikan/approve/$id/".$anggota->pengguna->id_users;
+
+            Http::get($url);
+        }
+
+        if ($request->verifikasi == 3) {
+            //push notification
+            $url = "https://api.ekopz.id/api/notification/simpanan/penarikan/notapproved/$id/".$anggota->pengguna->id_users;
+
+            Http::get($url);
         }
 
         return redirect('/simpanan/penarikan')->with('alert-success', 'berhasil verifikasi data !');
@@ -276,6 +251,8 @@ class SimpananController extends Controller
 
         $simpanan = PenarikanSimpanan::find($id);
 
+        $anggota = Anggota::find($simpanan->id_anggota);
+
         $simpanan->status = 3;
 
         //upload image
@@ -286,6 +263,11 @@ class SimpananController extends Controller
         $simpanan->foto = $urlFoto;
 
         $simpanan->save();
+
+        //push notification
+        $url = "https://api.ekopz.id/api/notification/simpanan/penarikan/transfer/$id/".$anggota->pengguna->id_users;
+
+        Http::get($url);
 
         return redirect('/simpanan/penarikan')->with('alert-success', 'berhasil upload bukti pengiriman!');
     }

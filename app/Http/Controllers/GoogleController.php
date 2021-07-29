@@ -61,8 +61,23 @@ class GoogleController extends Controller
 
                 return redirect('/');
             } 
-            else {
-                //
+            elseif ($finduser == null) {
+                $url = 'https://api.ekopz.id/api/register/koperasi/google';
+
+                $api = Http::post($url, [
+                    'name' => $user->getName(),
+                    'email' => $user->getEmail(),
+                    'google_id' => $user->getId(),
+                ]);
+
+                $body = json_decode($api->getBody(), true);
+
+                if ($body['status'] == 201) {
+                    return redirect('/');
+                } 
+                elseif ($body['status'] == 801) {
+                    return redirect('/register')->with('alert', 'form tidak boleh kosong');
+                }
             }
 
         } catch (\Throwable $th) {

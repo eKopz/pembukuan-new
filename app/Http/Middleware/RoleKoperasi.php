@@ -27,6 +27,7 @@ class RoleKoperasi
         if ($koperasi != null) {
             Session::put('id_koperasi', $koperasi->id);
             Session::put('akses', 1);
+            Session::put('jabatan', 'Admin Pengurus');
 
             if (Session::get('role') == 1) {
                 Session::forget('token');
@@ -37,6 +38,8 @@ class RoleKoperasi
                 Session::forget('akses');
                 Session::forget('id_koperasi');
                 Session::forget('id_anggota');
+                Session::forget('jabatan');
+                Session::forget('nama_koperasi');
     
                 return redirect('/login')->with('alert', 'Maaf, akun yang anda masukkan bukan role untuk pengurus koperasi');
             }
@@ -49,6 +52,8 @@ class RoleKoperasi
                 Session::forget('role');
                 Session::forget('akses');
                 Session::forget('id_koperasi');
+                Session::forget('jabatan');
+                Session::forget('nama_koperasi');
     
                 return redirect('/login')->with('alert', 'Maaf, akun yang anda masukkan bukan role untuk pengurus koperasi');
             }
@@ -65,6 +70,7 @@ class RoleKoperasi
 
                 if ($pengurus->jabatan == 'Ketua' || $pengurus->jabatan == 'Bendahara' || $pengurus->jabatan == 'Administrasi 1' || $pengurus->jabatan == 'Administrasi 2') {
                     Session::put('akses', 1);
+                    Session::put('jabatan', $pengurus->jabatan);
 
                     if (Session::get('role') == 1) {
                         return $next($request);
@@ -73,6 +79,7 @@ class RoleKoperasi
         
                 if ($pengurus->jabatan == 'Pengawas 1' || $pengurus->jabatan == 'Pengawas 2'){
                     Session::put('akses', 2);
+                    Session::put('jabatan', $pengurus->jabatan);
 
                     if (Session::get('role') == 1) {
                         return $next($request);
@@ -88,6 +95,8 @@ class RoleKoperasi
                     Session::forget('akses');
                     Session::forget('id_koperasi');
                     Session::forget('id_anggota');
+                    Session::forget('jabatan');
+                    Session::forget('nama_koperasi');
         
                     return redirect('/login')->with('alert', 'Maaf, akun yang anda masukkan bukan role untuk pengurus koperasi');
                 } 
@@ -102,6 +111,8 @@ class RoleKoperasi
                     Session::forget('akses');
                     Session::forget('id_koperasi');
                     Session::forget('id_anggota');
+                    Session::forget('jabatan');
+                    Session::forget('nama_koperasi');
         
                     return redirect('/login')->with('alert', 'Maaf, akun yang anda masukkan bukan role untuk pengurus koperasi');
                 } 
@@ -116,6 +127,8 @@ class RoleKoperasi
                 Session::forget('akses');
                 Session::forget('id_koperasi');
                 Session::forget('id_anggota');
+                Session::forget('jabatan');
+                Session::forget('nama_koperasi');
     
                 return redirect('/login')->with('alert', 'Maaf, akun yang anda masukkan bukan role untuk pengurus koperasi');
             }

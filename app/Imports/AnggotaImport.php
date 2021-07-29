@@ -38,7 +38,7 @@ class AnggotaImport implements ToCollection, WithHeadingRow
                 'keterangan' => null,
                 'status' => 2,
                 'jumlah_pinjaman' => $row['sisa_pinjaman'],
-                'jumlah_cicilan' => $row['jumlah_cicilan'],
+                'jumlah_cicilan' => $row['sisa_cicilan'],
                 'angsuran' => 0
             ]);
         }

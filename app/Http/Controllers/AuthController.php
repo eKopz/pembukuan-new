@@ -42,17 +42,13 @@ class AuthController extends Controller
         $api = Http::post($url, [
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password
+            'password' => $request->password,
+            'google_id' => null
         ]);
 
         $body = json_decode($api->getBody(), true);
 
         if ($body['status'] == 201) {
-            Koperasi::create([
-                'nama' => $request->name,
-                'id_users' => $body['data']['user']['id']
-            ]);
-
             return redirect('/login')->with('alert-success', 'register berhasil, silahkan login terlebih dahulu !');
         } 
         elseif ($body['status'] == 801) {
@@ -88,6 +84,8 @@ class AuthController extends Controller
             if ($pengguna != null) {
                 $anggota = Anggota::where('id_pengguna', $pengguna->id)->first();
 
+                $koperasi_by_anggota = Koperasi::find($anggota->id_koperasi);
+
                 if ($anggota != null) {
                     Session::put('token', $body['access_token']);
                     Session::put('id', $body['account']['id']);
@@ -95,7 +93,8 @@ class AuthController extends Controller
                     Session::put('email', $body['account']['email']);
                     Session::put('role', $body['account']['role']);
                     Session::put('id_anggota', $anggota->id);
-                    Session::put('foto', $koperasi->foto);
+                    Session::put('foto', $koperasi_by_anggota->foto);
+                    Session::put('nama_koperasi', $koperasi_by_anggota->nama);
                 }
                 else {
                     Session::put('token', $body['access_token']);
@@ -104,6 +103,7 @@ class AuthController extends Controller
                     Session::put('email', $body['account']['email']);
                     Session::put('role', $body['account']['role']);
                     Session::put('foto', $koperasi->foto);
+                    Session::put('nama_koperasi', $koperasi_by_anggota->nama);
                 }
             }
             else {
@@ -113,6 +113,7 @@ class AuthController extends Controller
                 Session::put('email', $body['account']['email']);
                 Session::put('role', $body['account']['role']);
                 Session::put('foto', $koperasi->foto);
+                Session::put('nama_koperasi', $koperasi->nama);
             }
 
             return redirect('/');
@@ -133,7 +134,34 @@ class AuthController extends Controller
         Session::forget('id_anggota');
         Session::forget('akses');
         Session::forget('foto');
+        Session::forget('jabatan');
+        Session::forget('nama_koperasi');
+        Session::forget('banner');
 
         return redirect('/login')->with('alert-success', 'berhasil logout');
+    }
+
+    public function viewForgotPassword()
+    {
+        return view('authentikasi.forgot_password');
+    }
+
+    public function sendEmailForgotPassword(Request $request)
+    {
+        $message = [
+            'required' => ':attribute tidak boleh kosong'
+        ];
+
+        $this->validate($request, [
+            'email' => 'required',
+        ], $message);
+
+        $url = 'https://api.ekopz.id/api/password/email';
+
+        $api = Http::post($url, [
+            'email' => $request->email
+        ]);
+
+        return redirect()->back()->with('alert-success', 'berhasil kirim email');
     }
 }

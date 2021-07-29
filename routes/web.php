@@ -24,6 +24,9 @@ Route::get('/register', 'AuthController@formRegister');
 Route::post('/register/proses', 'AuthController@register');
 Route::post('/logout', 'AuthController@logout')->name('logout');
 
+Route::get('/password/forgot', 'AuthController@viewForgotPassword');
+Route::post('/password/forgot', 'AuthController@sendEmailForgotPassword');
+
 Route::group(['prefix' => 'auth/google'], function()
 {
     Route::get('/', 'GoogleController@redirectToGoogle');
@@ -35,6 +38,7 @@ Route::group(['prefix' => 'auth/google'], function()
 Route::group(['prefix' => 'anggota', 'middleware' => 'rolekoperasi'], function()
 {
     Route::get('/', 'AnggotaController@index');
+    Route::get('/keluar', 'AnggotaController@keluar');
     Route::get('/detail/{id}', 'AnggotaController@detail');
     Route::get('/tambah', 'AnggotaController@formTambah');
     Route::get('/edit/{id}', 'AnggotaController@formEdit');
@@ -140,6 +144,7 @@ Route::group(['prefix' => 'profile', 'middleware' => 'rolekoperasi'], function()
 {
     Route::get('/', 'ProfileController@index');
     Route::post('/upload', 'ProfileController@uploadFoto');
+    Route::post('/upload/banner', 'ProfileController@uploadBanner');
     Route::post('/update', 'ProfileController@update');
 });
 

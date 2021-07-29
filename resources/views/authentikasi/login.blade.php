@@ -67,7 +67,7 @@
                                             <label class="form-check-label ml-3" for="basic_checkbox_1">{{ __('Remember Me') }}</label>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-6 text-right"><a href="/resetpassword">Forgot Password?</a>
+                                    <div class="form-group col-md-6 text-right"><a href="/password/forgot">Forgot Password?</a>
                                     </div>
                                 </div>
                                 <div class="text-center mb-4 mt-4">

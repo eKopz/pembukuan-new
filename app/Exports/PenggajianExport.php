@@ -29,14 +29,15 @@ class PenggajianExport implements FromView, ShouldAutoSize, WithStyles, WithEven
 
     public function styles(Worksheet $sheet)
     {
-        $gaji = Gaji::whereMonth('gaji.created_at', $this->month)
-                ->whereYear('gaji.created_at', $this->year)
-                ->where('gaji.id_koperasi', Session::get('id_koperasi'))
+        $gaji = Gaji::whereMonth('created_at', $this->month)
+                ->whereYear('created_at', $this->year)
+                ->where('status', 2)
+                ->where('id_koperasi', Session::get('id_koperasi'))
                 ->count();
     
         $getCountData = $gaji + 7;
 
-        $range = "A4:AD".$getCountData;
+        $range = "A4:Y".$getCountData;
 
         $styleArray = array(
             'borders' => [
@@ -66,6 +67,7 @@ class PenggajianExport implements FromView, ShouldAutoSize, WithStyles, WithEven
                 ->select('gaji.*', 'karyawan_koperasi.loker as loker', 'karyawan_koperasi.gaji_pokok as gaji_pokok')
                 ->whereMonth('gaji.created_at', $this->month)
                 ->whereYear('gaji.created_at', $this->year)
+                ->where('gaji.status', 2)
                 ->where('gaji.id_koperasi', Session::get('id_koperasi'))
                 ->orderBy('karyawan_koperasi.loker', 'ASC')
                 ->get();

@@ -53,7 +53,7 @@
                     @foreach ($simpanan as $item)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{ $item->created_at }}</td>
+                            <td>{{ $item->created_at->format('d M Y H:i:s') }}</td>
                             <td>{{ $item->anggota->nama }}</td>
                             <td>Rp. {{ number_format($item->jumlah,0,',','.') }}</td>
                             <td>

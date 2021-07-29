@@ -24,7 +24,7 @@ class KasController extends Controller
 
     public function index()
     {
-        $kas = Kas::where('id_koperasi', Session::get('id_koperasi'))->get();
+        $kas = Kas::where('id_koperasi', Session::get('id_koperasi'))->orderBy('created_at', 'DESC')->get();
 
         $kas_masuk =  Kas::select(DB::raw('sum(jumlah) as saldo'))->where('id_koperasi', Session::get('id_koperasi'))->where('no_bukti', 'like', 'KM%')->first();
 

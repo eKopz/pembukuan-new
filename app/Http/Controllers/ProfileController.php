@@ -6,6 +6,7 @@ use App\model\Koperasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Traits\ImageUpload;
+use Illuminate\Support\Facades\Http;
 
 class ProfileController extends Controller
 {
@@ -41,6 +42,10 @@ class ProfileController extends Controller
 
         $koperasi->syarat = $request->syarat;
 
+        $koperasi->syarat_pinjaman = $request->syarat_pinjaman;
+
+        $koperasi->warna = $request->warna;
+
         $koperasi->save();
 
         return redirect('/profile')->with('success', 'data berhasil di update !');
@@ -48,24 +53,44 @@ class ProfileController extends Controller
 
     public function uploadFoto(Request $request)
     {
-        $koperasi = Koperasi::where('id_users', Session::get('id'))->first();
-
         $this->validate($request, [
-            'upload_foto' => 'required'
+            'upload_foto' => 'required',
         ], [
             'required' => 'form :attribute tidak boleh kosong!'
         ]);
+        
+        $url = "https://api.ekopz.id/api/foto/koperasi/".Session::get('id');
 
-        //upload image
-        $foto = $request->upload_foto;
-        $urlFoto = $foto != null ?
-            $this->storeImages($foto, 'koperasi') : $koperasi->foto;
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '.Session::get('token')
+        ])->attach('foto', fopen($request->upload_foto, 'r'))
+        ->post($url);
+        
+        $koperasi = Koperasi::where('id_users', Session::get('id'))->first();
+        
+        Session::put('foto', $koperasi->foto);
 
-        $koperasi->foto = $urlFoto;
+        return redirect('/profile')->with('status', 'upload toko berhasil !');
+    }
 
-        $koperasi->save();
+    public function uploadBanner(Request $request)
+    {
+        $this->validate($request, [
+            'upload_banner' => 'required',
+        ], [
+            'required' => 'form :attribute tidak boleh kosong!'
+        ]);
+        
+        $url = "https://api.ekopz.id/api/foto/koperasi/banner/".Session::get('id');
 
-        Session::put('foto', $urlFoto);
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '.Session::get('token')
+        ])->attach('banner', fopen($request->upload_banner, 'r'))
+        ->post($url);
+        
+        $koperasi = Koperasi::where('id_users', Session::get('id'))->first();
+        
+        Session::put('banner', $koperasi->banner);
 
         return redirect('/profile')->with('status', 'upload toko berhasil !');
     }

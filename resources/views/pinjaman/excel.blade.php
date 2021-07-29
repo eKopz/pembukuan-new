@@ -14,7 +14,7 @@
         @foreach ($pinjaman as $value)
             <tr>
                 <td>{{ $value->anggota->nama }}</td>
-                <td>{{ $value->created_at->format('d M Y') }}</td>
+                <td>{{ $value->created_at->format('d M Y H:i:s') }}</td>
                 <td>Rp. {{ number_format($value->jumlah_pinjaman,0,',','.') }}</td>
                 <td>{{ $value->jumlah_cicilan }}x</td>
                 <td>{{ $value->jumlah_cicilan - $value->angsuran }}x</td>

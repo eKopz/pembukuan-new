@@ -1,7 +1,7 @@
 <div class="nk-nav-scroll">
-    <img @if (Session::get('foto') == null) src="{{ asset('assets/images/profile/1.jpg') }}" @else src="{{ Session::get('foto') }}" @endif style="max-width: 50%; height: 150px; object-fit: cover;" class="rounded-circle mx-auto d-block" alt="foto profile">
-    <p class="text-center text-dark mt-3">Pengurus</p>
-    <p class="text-center text-success">Online</p>
+    {{-- <img @if (Session::get('foto') == null) src="{{ asset('assets/images/profile/1.jpg') }}" @else src="{{ Session::get('foto') }}" @endif style="max-width: 50%; height: 150px; object-fit: cover;" class="rounded-circle mx-auto d-block" alt="foto profile"> --}}
+    {{-- <p class="text-center text-dark mt-3">{{ Session::get('nama_koperasi') }}</p>
+    <p class="text-center text-success">Online</p> --}}
 
     <ul class="metismenu" id="menu">
         <li class="nav-label" style="color: #3d8b40">Menu</li>
@@ -27,7 +27,8 @@
                     <i class="fa fa-user"></i><span class="nav-text">Anggota</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="/anggota">Anggota Koperasi</a></li>
+                    <li><a href="/anggota">Anggota Aktif</a></li>
+                    <li><a href="/anggota/keluar">Anggota Keluar</a></li>
                 </ul>
             </li>
             <li class="mega-menu mega-menu-lg">

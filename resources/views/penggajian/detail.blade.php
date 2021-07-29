@@ -144,12 +144,22 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <div class="row">
+                        <div class="col-8">
+                            <p class="text-dark">Lembur</p>
+                        </div>
+                        <div class="col-4">
+                            <p class="text-dark text-right">Rp. {{ number_format($gaji->lembur,0,',','.') }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="row mt-5">
                         <div class="col-8">
                             <h5 class="text-success">Gaji Per Bulan</h5>
                         </div>
                         <div class="col-4">
-                            <h5 class="text-success text-right">Rp. {{ number_format($gaji->karyawan_koperasi->gaji_pokok + $gaji->makan + $gaji->transport + $gaji->insentif,0,',','.') }}</h5>
+                            <h5 class="text-success text-right">Rp. {{ number_format($gaji->karyawan_koperasi->gaji_pokok + $gaji->makan + $gaji->transport + $gaji->insentif + $gaji->lembur,0,',','.') }}</h5>
                         </div>
                     </div>
                 </div>
@@ -159,7 +169,7 @@
                             <h5 class="text-success">Gaji Per Tahun</h5>
                         </div>
                         <div class="col-4">
-                            <h5 class="text-success text-right">Rp. {{ number_format(($gaji->karyawan_koperasi->gaji_pokok + $gaji->makan + $gaji->transport + $gaji->insentif) * 12,0,',','.') }}</h5>
+                            <h5 class="text-success text-right">Rp. {{ number_format(($gaji->karyawan_koperasi->gaji_pokok + $gaji->makan + $gaji->transport + $gaji->insentif + $gaji->lembur) * 12,0,',','.') }}</h5>
                         </div>
                     </div>
                 </div>

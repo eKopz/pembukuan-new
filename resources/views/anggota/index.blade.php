@@ -92,9 +92,11 @@
                                     @elseif ($item->status == 2)
                                         <span class="label label-danger">Keluar</span>
                                     @elseif ($item->status == 3)
-                                        <span class="label label-warning">Menunggu verifikasi oleh pengurus</span>
+                                        {{-- <span class="label label-warning">Menunggu verifikasi oleh pengurus</span> --}}
+                                        <span class="label label-warning">Pending</span>
                                     @else
-                                        <span class="label label-warning">Belum diverifikasi oleh pengguna</span>
+                                        {{-- <span class="label label-warning">Belum diverifikasi oleh pengguna</span> --}}
+                                        <span class="label label-warning">Pending</span>
                                     @endif
                                 </td>
                                 <td>

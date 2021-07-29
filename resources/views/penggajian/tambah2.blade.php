@@ -72,6 +72,17 @@
                   </div>
 
                   <div class="form-group">
+                    <label class="text-label">Lembur</label>
+                    <input type="text" class="form-control" name="lembur" value="{{ $lembur }}" readonly>
+
+                    @if($errors->has('lembur'))
+                        <div class="text-danger">
+                          {{ $errors->first('lembur') }}
+                        </div>
+                    @endif
+                  </div>
+
+                  <div class="form-group">
                     <label class="text-label">Rapel</label>
                     <input type="text" class="form-control" name="rapel" value="{{ $rapel }}" readonly>
 

@@ -250,38 +250,47 @@ class PinjamanController extends Controller
 
         // if ($request->jumlah != $jumlah_angsuran) {
         //     return redirect('/pinjaman/angsuran/tambah')->with('alert-danger', 'jumlah tidak sesuai dengan total angsuran. angsuran yang harus dibayar: Rp. '.number_format($jumlah_angsuran,0,',','.'));
-        // } else {
-
-        $angsuran_pinjaman = AngsuranPinjaman::create([
-            'id_pinjaman' => $request->id_pinjaman,
-            'jumlah' => $jumlah_angsuran,
-            'saldo' => 0,
-            'angsuran' => 0,
-        ]);
-
+        // } 
+        // else {
         $anggota = Anggota::find($pinjaman->id_anggota);
 
-        $anggota->pinjaman -= $angsuran; 
-
-        $anggota->save();
-
-        $pinjaman->angsuran += $cicilan;
-
-        $pinjaman->save();
-
-        $angsuran_pinjaman->saldo = $anggota->pinjaman;
-
-        $angsuran_pinjaman->angsuran += $pinjaman->angsuran;
-
-        $angsuran_pinjaman->save();
-        
-        if ($pinjaman->jumlah_cicilan == $pinjaman->angsuran) {
-            $pinjaman->status = 3;
-            
-            $pinjaman->save();
+        if ($anggota->id_pengguna == null) {
+            return redirect('/pinjaman/angsuran/tambah')->with('alert-danger', 'transaksi gagal, anggota harus verifikasi pengguna terlebih dahulu!');
         }
+        else{
+            $angsuran_pinjaman = AngsuranPinjaman::create([
+                'id_pinjaman' => $request->id_pinjaman,
+                'jumlah' => $jumlah_angsuran,
+                'saldo' => 0,
+                'angsuran' => 0,
+            ]);
 
-        return redirect('/pinjaman')->with('alert-success', 'angsuran berhasil ditambah');
+            $anggota->pinjaman -= $angsuran; 
+
+            $anggota->save();
+
+            $pinjaman->angsuran += $cicilan;
+
+            $pinjaman->save();
+
+            $angsuran_pinjaman->saldo = $anggota->pinjaman;
+
+            $angsuran_pinjaman->angsuran += $pinjaman->angsuran;
+
+            $angsuran_pinjaman->save();
+            
+            if ($pinjaman->jumlah_cicilan == $pinjaman->angsuran) {
+                $pinjaman->status = 3;
+                
+                $pinjaman->save();
+            }
+
+            $url = "https://api.ekopz.id/api/notification/pinjaman/angsuran/success/$angsuran_pinjaman->id/".$anggota->pengguna->id_users;
+
+            Http::get($url);
+
+            return redirect('/pinjaman')->with('alert-success', 'angsuran berhasil ditambah');
+        }
         // }
     }
 

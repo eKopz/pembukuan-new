@@ -64,13 +64,13 @@
                       @endif
                     </div>
 
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                       <label class="text-label">Status Simpanan</label>
                       <select name="status" class="js-example-placeholder-multiple form-control">
                         <option value="1">Simpanan Masuk</option>
                         <option value="2">Simpanan Keluar</option>
                       </select>
-                    </div>
+                    </div> --}}
 
                   <button type="submit" class="btn btn-success btn-form mr-2">Simpan</button>
                   <a href="/simpanan" class="btn btn-light text-dark btn-form">Kembali</a>

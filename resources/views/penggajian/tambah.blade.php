@@ -51,7 +51,7 @@
                   <hr class="mb-4">
 
                   <div class="form-group">
-                    <label class="text-label">Makan (hari)</label>
+                    <label class="text-label">Makan</label>
                     <input type="number" class="form-control" name="makan">
 
                     @if($errors->has('makan'))
@@ -62,7 +62,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label class="text-label">Transport (hari)</label>
+                    <label class="text-label">Transport</label>
                     <input type="number" class="form-control" name="transport">
 
                     @if($errors->has('transport'))
@@ -80,6 +80,17 @@
                       <div class="text-danger">
                         {{ $errors->first('insentif') }}
                       </div>
+                    @endif
+                  </div>
+
+                  <div class="form-group">
+                    <label class="text-label">Lembur</label>
+                    <input type="text" class="form-control" name="lembur">
+
+                    @if($errors->has('lembur'))
+                        <div class="text-danger">
+                          {{ $errors->first('lembur') }}
+                        </div>
                     @endif
                   </div>
 

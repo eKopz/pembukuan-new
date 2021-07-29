@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\model\Anggota;
 use App\model\AngsuranPinjaman;
 use App\model\Pinjaman;
 use App\model\Produk;
@@ -33,13 +34,19 @@ class DashboardController extends Controller
                         ->join('pesanan', 'pesanan_barang.id_pesanan', 'pesanan.id')
                         ->join('toko', 'pesanan.id_toko', 'toko.id')
                         ->where('toko.id_koperasi', Session::get('id_koperasi'))
+                        ->where('pesanan.status', 5)
                         ->count('pesanan_barang.id');
 
         $total_penjualan = DB::table('pesanan')
                         ->join('toko', 'pesanan.id_toko', 'toko.id')
                         ->where('toko.id_koperasi', Session::get('id_koperasi'))
+                        ->where('pesanan.status', 5)
                         ->sum('pesanan.total_harga');
 
-        return view('dashboard.index', compact('pengajuan_pinjaman', 'pinjaman_tersalur', 'pinjaman_terbayar', 'total_produk', 'produk_terjual', 'total_penjualan'));
+        $anggota_aktif = Anggota::where('status', 1)->where('id_koperasi', Session::get('id_koperasi'))->count('id');
+
+        $anggota_nonaktif = Anggota::where('status', 2)->where('id_koperasi', Session::get('id_koperasi'))->count('id');
+
+        return view('dashboard.index', compact('pengajuan_pinjaman', 'pinjaman_tersalur', 'pinjaman_terbayar', 'total_produk', 'produk_terjual', 'total_penjualan', 'anggota_aktif', 'anggota_nonaktif'));
     }
 }

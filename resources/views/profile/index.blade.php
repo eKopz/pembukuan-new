@@ -4,7 +4,7 @@
 
 @section('content-title')
 <div class="col p-0">
-    <h4 class="text-success">profile</h4>
+    <h4>profile</h4>
     {{-- <h4>Hello {{Auth::user()->name}}, <span>Welcome here</span></h4> --}}
 </div>
 <div class="col p-0">
@@ -22,12 +22,16 @@
             <div class="profile">
                 <div class="profile-head">
                     <div class="photo-content">
+                        @if (!$koperasi->banner && $koperasi->banner == null)
                         <div class="cover-photo"></div>
+                        @else
+                            <div class="cover-photo" style="background-image: url({{ $koperasi->banner }})"></div>
+                        @endif
                         <div class="profile-photo">
                             @if (!$koperasi->foto && $koperasi->foto == null)
                                 <img src="{{ asset('assets/images/profile/profile.png') }}" class="img-fluid rounded-circle" alt="">  
                             @else
-                                <img src="{{ $koperasi->foto }}" class="img-fluid rounded-circle" alt="">
+                                <img src="{{ $koperasi->foto }}" style="height: 150px; object-fit: cover;" class="img-fluid rounded-circle" alt="">
                             @endif
                         </div>
                     </div>
@@ -35,19 +39,19 @@
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
                                 <div class="row">
-                                    <div class="col-xl-3 col-sm-4 border-right-1 prf-col">
+                                    <div class="col-xl-3 border-right-1">
                                         <div class="profile-name">
                                             <h4 class="text-success">{{ $koperasi->nama }}</h4>
                                             <p>Nama Koperasi</p>
                                         </div>
                                     </div>
-                                    <div class="col-xl-5 col-sm-4 border-right-1 prf-col">
+                                    <div class="col-xl-5 border-right-1">
                                         <div class="profile-email">
                                             <h4 class="text-muted">{{ Session::get('email') }}</h4>
                                             <p>Email</p>
                                         </div>
                                     </div>
-                                    <div class="col-xl-4 col-sm-4 prf-col">
+                                    <div class="col-xl-4 col-sm-4 border-right-1">
                                         <div class="profile-call">
                                             <h4 class="text-success">{{ $koperasi->jenis_koperasi != null ? $koperasi->jenis_koperasi : $notfound }}</h4>
                                             <p>Jenis Koperasi</p>
@@ -92,6 +96,30 @@
                                                 <form action="/profile/upload" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     <input type="file" class="form-control" name="upload_foto">
+                                                    <button type="button" class="btn btn-secondary mt-5" data-dismiss="modal">Kembali</button>
+                                                    <input type="submit" class="btn btn-success mt-5" value="upload foto">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-warning pl-5 pr-5 mr-3 mb-4" data-toggle="modal" data-target="#bannerModal">Update Banner</button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="bannerModal">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Upload Banner</h5>
+                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/profile/upload/banner" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <input type="file" class="form-control" name="upload_banner">
                                                     <button type="button" class="btn btn-secondary mt-5" data-dismiss="modal">Kembali</button>
                                                     <input type="submit" class="btn btn-success mt-5" value="upload foto">
                                                 </form>
@@ -189,6 +217,12 @@
                                             {!! $koperasi->syarat != null ? $koperasi->syarat : $notfound !!}
                                         </div>
                                     </div>
+                                    <div class="border-bottom-1 pt-5">
+                                        <h4 class="text-success mb-4">Syarat Pinjaman</h4>
+                                        <div class="mb-4 ml-1">
+                                            {!! $koperasi->syarat_pinjaman != null ? $koperasi->syarat_pinjaman : $notfound !!}
+                                        </div>
+                                    </div>
                                 </div>
                                 <div id="profile-settings" class="tab-pane fade">
                                     <div class="pt-3">
@@ -231,12 +265,26 @@
                                                     <input type="text" name="jam_tutup" value="{{ $koperasi->jam_tutup != null ? $koperasi->jam_tutup : null }}" class="form-control">
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>Warna Koperasi</label>
+                                                    <input type="color" name="warna" value="{{ $koperasi->warna != null ? $koperasi->warna : null }}" class="form-control">
+                                                </div>
+                                                <div class="form-group">
                                                     <label class="text-label">Syarat Koperasi</label>
                                                     <textarea class="ckeditor" name="syarat" id="ck_edtor">{!! $koperasi->syarat !!}</textarea>
                               
                                                     @if($errors->has('syarat'))
                                                       <div class="text-danger">
                                                         {{ $errors->first('syarat') }}
+                                                      </div>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="text-label">Syarat Pinjaman</label>
+                                                    <textarea class="ckeditor" name="syarat_pinjaman" id="ck_edtor">{!! $koperasi->syarat_pinjaman !!}</textarea>
+                              
+                                                    @if($errors->has('syarat_pinjaman'))
+                                                      <div class="text-danger">
+                                                        {{ $errors->first('syarat_pinjaman') }}
                                                       </div>
                                                     @endif
                                                 </div>

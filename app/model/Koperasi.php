@@ -8,7 +8,7 @@ class Koperasi extends Model
 {
     protected $table = "koperasi";
 
-    protected $fillable = ['nama', 'jenis_koperasi', 'badanHukum', 'thnBerdiri', 'alamat', 'deskripsi', 'jam_operasional', 'foto', 'id_users'];
+    protected $fillable = ['nama', 'jenis_koperasi', 'badanHukum', 'thnBerdiri', 'alamat', 'deskripsi', 'jam_operasional', 'foto', 'id_users', 'syarat', 'syarat_pinjaman', 'warna'];
 
     public function toko()
     {

@@ -39,11 +39,8 @@
                   <thead>
                         <tr>
                             <th>No. Bukti</th>
-                            <th>Tanggal</th>
                             <th>Uraian</th>
-                            <th>Debet</th>
-                            <th>Kredit</th>
-                            <th>Saldo</th>
+                            <th>Jumlah</th>
                             <th>Tanggal Dibuat</th>
                             <th>Tanggal Update</th>
                             <th>Aksi</th>
@@ -56,11 +53,8 @@
                     @foreach ($kas as $item)
                         <tr>
                             <td>{{ $item->no_bukti }}</td>
-                            <td>{{ $item->created_at->format('d M Y') }}</td>
                             <td>{{ $item->uraian }}</td>
-                            <td></td>
                             <td>Rp. {{ number_format($item->jumlah,0,',','.') }}</td>
-                            <td>Rp. {{ number_format($kas_keluar->saldo,0,',','.') }}</td>
                             <td>{{ $item->created_at->format('d M Y H:i:s') }}</td>
                             <td>{{ $item->updated_at->format('d M Y H:i:s') }}</td>
                             <td>
@@ -72,11 +66,8 @@
                   <tfoot>
                         <tr>
                             <th>No. Bukti</th>
-                            <th>Tanggal</th>
                             <th>Uraian</th>
-                            <th>Debet</th>
-                            <th>Kredit</th>
-                            <th>Saldo</th>
+                            <th>Jumlah</th>
                             <th>Tanggal Dibuat</th>
                             <th>Tanggal Update</th>
                             <th>Aksi</th>

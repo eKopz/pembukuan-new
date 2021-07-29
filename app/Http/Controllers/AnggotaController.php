@@ -18,9 +18,16 @@ class AnggotaController extends Controller
 {
     public function index()
     {
-        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->orderBy('status', 'asc')->orderBy('id', 'DESC')->get();
+        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->whereNotIn('status', [2])->orderBy('status', 'asc')->orderBy('id', 'DESC')->get();
 
         return view('anggota.index', compact('anggota'));   
+    }
+
+    public function keluar()
+    {
+        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 2)->orderBy('status', 'asc')->orderBy('id', 'DESC')->get();
+
+        return view('anggota.keluar', compact('anggota'));
     }
 
     public function detail($id)
