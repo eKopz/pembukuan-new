@@ -11,7 +11,7 @@
     z-index: 1;
     position: relative;
     padding: 0 1.5rem;
-    background: $white;
+    background: $primary;
     // box-shadow: 0 0 1rem $l-border;
     box-shadow: 0 0 1.5rem rgba(120, 130, 140, 0.13);
     margin-left: 32rem;
@@ -34,7 +34,9 @@
          display: block;
      }
  }
- 
+ .page-title {
+     background-color: $primary;
+ }
  .drop-down {
      display: none;
      z-index: 9999;
