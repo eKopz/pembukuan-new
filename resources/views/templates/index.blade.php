@@ -42,10 +42,10 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
-            <div class="brand-logo"><a href="#"><b><img src="{{ Session::get('foto') }}" alt="" style="width: 60px;"> </b></a>
+        <div class="nav-header" style="background-color:#f3f6f9">
+            <div class="brand-logo"><a href="#"><img src="{{ Session::get('foto') }}" alt="" style="width: 60px; border-radius:60px"></a>
             </div>
-            <div class="nav-control">
+            <div class="nav-control" >
                 <div class="hamburger"><span class="line"></span>  <span class="line"></span>  <span class="line"></span>
                 </div>
             </div>
@@ -79,7 +79,7 @@
         ***********************************-->
         <div class="content-body">
             <div class="container-fluid">
-                <div class="row page-titles">
+                <div class="row page-titles" style="background:#00AD92;">
                     @yield('content-title')
                 </div>
                 @yield('content')

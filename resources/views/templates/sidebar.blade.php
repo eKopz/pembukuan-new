@@ -2,9 +2,9 @@
     {{-- <img @if (Session::get('foto') == null) src="{{ asset('assets/images/profile/1.jpg') }}" @else src="{{ Session::get('foto') }}" @endif style="max-width: 50%; height: 150px; object-fit: cover;" class="rounded-circle mx-auto d-block" alt="foto profile"> --}}
     {{-- <p class="text-center text-dark mt-3">{{ Session::get('nama_koperasi') }}</p>
     <p class="text-center text-success">Online</p> --}}
-
+    
     <ul class="metismenu" id="menu">
-        <li class="nav-label" style="color: #3d8b40">Menu</li>
+        <li class="nav-label" >Menu</li>
         @if (Session::get('akses') == 1)
             <li class="mega-menu mega-menu-lg">
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -110,5 +110,8 @@
                 </ul>
             </li>
         @endif
+    
+    
+    
     </ul>
 </div>
