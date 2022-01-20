@@ -23,6 +23,7 @@ Route::post('/login/proses', 'AuthController@login');
 Route::get('/register', 'AuthController@formRegister');
 Route::post('/register/proses', 'AuthController@register');
 Route::post('/logout', 'AuthController@logout')->name('logout');
+Route::get('/email/verifikasi/{email}', 'AuthController@emailVerifikasi');
 
 Route::get('/password/forgot', 'AuthController@viewForgotPassword');
 Route::post('/password/forgot', 'AuthController@sendEmailForgotPassword');
@@ -179,3 +180,5 @@ Route::group(['prefix' => 'gaji', 'middleware' => 'rolekoperasi'], function()
     Route::post('/bukti/{id}', 'PenggajianController@updateBuktiBayar');
     Route::post('/export', 'PenggajianController@export');
 });
+
+Route::get('email/verifikasi/{email}', 'AuthController@emailVerifikasi');

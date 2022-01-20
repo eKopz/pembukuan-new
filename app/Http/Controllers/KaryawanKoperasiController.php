@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\model\Anggota;
 use App\model\KaryawanKoperasi;
+use App\model\Koperasi;
 use App\model\Pajak;
 use App\model\PotongGaji;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -42,11 +44,20 @@ class KaryawanKoperasiController extends Controller
 
     public function formTambah()
     {
-        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->get();
+        $user = User::find(Session::get('id'));
 
-        $pajak = Pajak::all();
+        $koperasi = Koperasi::where('id_users', $user->id)->first();
 
-        return view('pengurus.tambah_karyawan', compact('anggota', 'pajak'));
+        if ($koperasi->badanHukum == null || $koperasi->thnBerdiri == null || $koperasi->deskripsi == null || $koperasi->jam_buka == null || $koperasi->jam_tutup == null || $koperasi->foto == null || $koperasi->banner == null || $koperasi->syarat == null || $koperasi->syarat_pinjaman == null || $koperasi->warna == null) {
+            return redirect('/pengurus')->with('alert-danger', 'tidak bisa tambah data, isi profile koperasi terlebih dahulu!');
+        }
+        else {
+            $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->get();
+
+            $pajak = Pajak::all();
+
+            return view('pengurus.tambah_karyawan', compact('anggota', 'pajak'));   
+        }
     }
 
     public function formEdit($id)

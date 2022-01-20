@@ -10,7 +10,7 @@
     <div class="col p-0">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="javascript:void(0)">Pengurus</a>
-            </li>
+            </li>   
             <li class="breadcrumb-item active text-success">Data Pengurus</li>
         </ol>
     </div>
@@ -26,6 +26,12 @@
                         aria-hidden="true">&times;</span>
                 </button> {{ session('alert-success') }}
             </div>
+            <?php elseif (session('alert-danger')): ?>
+            <div class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span>
+                </button> {{ session('alert-danger') }}
+            </div>
             <?php endif; ?>
         </div>
         <div class="row">
@@ -39,7 +45,7 @@
                     <div class="doctor-list pt-4">
                         @foreach ($pengurus as $item)
                             <div class="media bg-white">
-                                <img class="mr-3 rounded-circle" alt="image" width="50" @if (!$item->anggota->pengguna->foto || $item->anggota->pengguna->foto == null) src="{{ asset('assets/images/user/profile-user.svg') }}" @else src="{{ $item->anggota->pengguna->foto }}" @endif>
+                                <img class="mr-3 rounded-circle" alt="image" width="50" style="border-radius:50px" @if (!$item->anggota->pengguna->foto || $item->anggota->pengguna->foto == null) src="{{ asset('assets/images/user/profile-user.svg') }}" @else src="{{ $item->anggota->pengguna->foto }}" @endif>
                                 <div class="media-body">
                                     <h5 class="mt-2 text-pale-sky">{{ $item->anggota->nama }}</h5>
                                     <h6 class="text-success mb-0">{{ $item->jabatan }}</h6>
@@ -59,7 +65,7 @@
                     <div class="doctor-list pt-4">
                         @foreach ($karyawan as $value)
                             <div class="media bg-white">
-                                <img class="mr-3 rounded-circle" alt="image" width="50" @if (!$value->anggota->pengguna->foto || $value->anggota->pengguna->foto == null) src="{{ asset('assets/images/user/profile-user.svg') }}" @else src="{{ $value->anggota->pengguna->foto }}" @endif>
+                                <img class="mr-3 rounded-circle" alt="image" width="50" style="border-radius:50px" @if (!$value->anggota->pengguna->foto || $value->anggota->pengguna->foto == null) src="{{ asset('assets/images/user/profile-user.svg') }}" @else src="{{ $value->anggota->pengguna->foto }}" @endif>
                                 <div class="media-body">
                                     <h5 class="mt-2 text-pale-sky">{{ $value->anggota->nama }}</h5>
                                     <h6 class="text-success mb-0">{{ $value->loker }}</h6>

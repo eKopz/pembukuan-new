@@ -26,6 +26,12 @@
                       aria-hidden="true">&times;</span>
               </button> {{ session('alert-success') }}
           </div>
+        <?php elseif (session('alert-danger')): ?>
+          <div class="alert alert-danger alert-dismissible fade show">
+              <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close"><span
+                      aria-hidden="true">&times;</span>
+              </button> {{ session('alert-danger') }}
+          </div>
         <?php endif; ?>
       </div>
       <div class="card">

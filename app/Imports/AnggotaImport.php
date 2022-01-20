@@ -30,6 +30,7 @@ class AnggotaImport implements ToCollection, WithHeadingRow
                 'no_anggota' => $row['no_anggota'],
                 'nama' => $row['nama'],
                 'keterangan' => null,
+                'nik' => $row['nik'],
             ]);
 
             Pinjaman::create([  

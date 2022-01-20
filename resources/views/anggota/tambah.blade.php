@@ -58,6 +58,17 @@
                     </div>
 
                     <div class="form-group">
+                      <label class="text-label">NIK KTP</label>
+                      <input type="number" name="nik" class="form-control">
+
+                      @if($errors->has('nik'))
+                          <div class="text-danger">
+                            {{ $errors->first('nik') }}
+                          </div>
+                      @endif
+                    </div>
+
+                    <div class="form-group">
                       <label class="text-label">Karyawan</label>
                       <select name="karyawan" class="js-example-placeholder-multiple form-control">
                         @foreach ($karyawan as $item)

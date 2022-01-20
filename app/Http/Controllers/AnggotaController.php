@@ -7,8 +7,11 @@ use App\model\Anggota;
 use App\model\Karyawan;
 use App\model\Koperasi;
 use App\model\Pengguna;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Kavist\RajaOngkir\Facades\RajaOngkir;
@@ -61,11 +64,20 @@ class AnggotaController extends Controller
 
     public function formTambah()
     {
-        $pengguna = Pengguna::all();
+        $user = User::find(Session::get('id'));
 
-        $karyawan = Karyawan::all();
+        $koperasi = Koperasi::where('id_users', $user->id)->first();
 
-        return view('anggota.tambah', compact('pengguna', 'karyawan'));
+        if ($koperasi->badanHukum == null || $koperasi->thnBerdiri == null || $koperasi->deskripsi == null || $koperasi->jam_buka == null || $koperasi->jam_tutup == null || $koperasi->foto == null || $koperasi->banner == null || $koperasi->syarat == null || $koperasi->syarat_pinjaman == null || $koperasi->warna == null) {
+            return redirect('/anggota')->with('alert-danger', 'tidak bisa tambah data, isi profile koperasi terlebih dahulu!');
+        }
+        else {
+            $pengguna = Pengguna::all();
+
+            $karyawan = Karyawan::all();
+
+            return view('anggota.tambah', compact('pengguna', 'karyawan'));   
+        }
     }
 
     public function formEdit($id)
@@ -89,7 +101,7 @@ class AnggotaController extends Controller
             'no_anggota' => 'required', 
             'nama' => 'required'
         ], $message);
-
+        
         Anggota::create([
             'nama' => $request->nama,
             'no_anggota' => $request->no_anggota,
@@ -102,6 +114,7 @@ class AnggotaController extends Controller
             'status' => 4,
             'id_karyawan' => $request->karyawan,
             'keterangan' => null,
+            'nik' => $request->nik,
         ]);
 
         return redirect('/anggota')->with('alert-success', 'berhasil tambah data');
@@ -145,6 +158,7 @@ class AnggotaController extends Controller
         $anggota->id_karyawan = $request->karyawan;
         $anggota->keterangan = $request->keterangan;
         $anggota->status = $request->status;
+        $anggota->nik = $request->nik;
 
         $anggota->save();
 
@@ -177,6 +191,8 @@ class AnggotaController extends Controller
 
         if ($request->verifikasi == 1) {
             $anggota->status = 1;
+
+            $anggota->is_active = 1;
         }
         else {
             $anggota->status = 4;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\model\Anggota;
 use App\model\Koperasi;
 use App\model\Pengguna;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
@@ -49,7 +50,14 @@ class AuthController extends Controller
         $body = json_decode($api->getBody(), true);
 
         if ($body['status'] == 201) {
-            return redirect('/login')->with('alert-success', 'register berhasil, silahkan login terlebih dahulu !');
+            $user = User::where('email', $request->email)->first();
+
+            if ($user->email_verified_at != null) {
+                return redirect('/login')->with('alert-success', 'register berhasil, silahkan login terlebih dahulu !'); 
+            }
+            else {
+                return redirect("/email/verifikasi/$request->email");
+            }
         } 
         elseif ($body['status'] == 801) {
             return redirect('/register')->with('alert', 'form tidak boleh kosong');
@@ -81,20 +89,31 @@ class AuthController extends Controller
             $pengguna = Pengguna::where('id_users', $body['account']['id'])->first();
             $koperasi = Koperasi::where('id_users', $body['account']['id'])->first();
 
-            if ($pengguna != null) {
-                $anggota = Anggota::where('id_pengguna', $pengguna->id)->first();
-
-                $koperasi_by_anggota = Koperasi::find($anggota->id_koperasi);
-
-                if ($anggota != null) {
-                    Session::put('token', $body['access_token']);
-                    Session::put('id', $body['account']['id']);
-                    Session::put('name', $body['account']['name']);
-                    Session::put('email', $body['account']['email']);
-                    Session::put('role', $body['account']['role']);
-                    Session::put('id_anggota', $anggota->id);
-                    Session::put('foto', $koperasi_by_anggota->foto);
-                    Session::put('nama_koperasi', $koperasi_by_anggota->nama);
+            if ($body['account']['email_verified_at'] != null) {
+                if ($pengguna != null) {
+                    $anggota = Anggota::where('id_pengguna', $pengguna->id)->first();
+    
+                    $koperasi_by_anggota = Koperasi::find($anggota->id_koperasi);
+    
+                    if ($anggota != null) {
+                        Session::put('token', $body['access_token']);
+                        Session::put('id', $body['account']['id']);
+                        Session::put('name', $body['account']['name']);
+                        Session::put('email', $body['account']['email']);
+                        Session::put('role', $body['account']['role']);
+                        Session::put('id_anggota', $anggota->id);
+                        Session::put('foto', $koperasi_by_anggota->foto);
+                        Session::put('nama_koperasi', $koperasi_by_anggota->nama);
+                    }
+                    else {
+                        Session::put('token', $body['access_token']);
+                        Session::put('id', $body['account']['id']);
+                        Session::put('name', $body['account']['name']);
+                        Session::put('email', $body['account']['email']);
+                        Session::put('role', $body['account']['role']);
+                        Session::put('foto', $koperasi->foto);
+                        Session::put('nama_koperasi', $koperasi_by_anggota->nama);
+                    }
                 }
                 else {
                     Session::put('token', $body['access_token']);
@@ -103,23 +122,31 @@ class AuthController extends Controller
                     Session::put('email', $body['account']['email']);
                     Session::put('role', $body['account']['role']);
                     Session::put('foto', $koperasi->foto);
-                    Session::put('nama_koperasi', $koperasi_by_anggota->nama);
+                    Session::put('nama_koperasi', $koperasi->nama);
                 }
+    
+                return redirect('/');
             }
             else {
-                Session::put('token', $body['access_token']);
-                Session::put('id', $body['account']['id']);
-                Session::put('name', $body['account']['name']);
-                Session::put('email', $body['account']['email']);
-                Session::put('role', $body['account']['role']);
-                Session::put('foto', $koperasi->foto);
-                Session::put('nama_koperasi', $koperasi->nama);
+                return redirect("/email/verifikasi/$request->email");
             }
-
-            return redirect('/');
 
         } else {
             return redirect('/login')->with('alert', 'email atau password salah !');
+        }
+    }
+
+    public function emailVerifikasi($email_verifikasi)
+    {
+        $email = $email_verifikasi;
+
+        $user = User::where('email', $email_verifikasi)->first();
+
+        if ($user->email_verified_at != null) {
+            return redirect('/login');
+        }
+        else {
+            return view('authentikasi.verifikasi_email', compact('email'));
         }
     }
 

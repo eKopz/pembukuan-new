@@ -9,7 +9,7 @@ class Anggota extends Model
 {
     protected $table = 'anggota';
 
-    protected $fillable = ['no_anggota', 'id_koperasi', 'id_pengguna', 'simpanan', 'simpanan_wajib', 'simpanan_pokok', 'pinjaman', 'status', 'id_karyawan', 'keterangan', 'nama'];
+    protected $fillable = ['no_anggota', 'id_koperasi', 'id_pengguna', 'simpanan', 'simpanan_wajib', 'simpanan_pokok', 'pinjaman', 'status', 'id_karyawan', 'keterangan', 'nama', 'nik', 'is_active'];
 
     public function koperasi()
     {

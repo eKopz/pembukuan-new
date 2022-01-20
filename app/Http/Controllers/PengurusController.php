@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\model\Anggota;
 use App\model\KaryawanKoperasi;
+use App\model\Koperasi;
 use App\model\Pengurus;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
@@ -14,7 +16,7 @@ class PengurusController extends Controller
     public function index()
     {
         $pengurus = Pengurus::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->paginate(10);
-
+        
         $karyawan = KaryawanKoperasi::where('id_koperasi', Session::get('id_koperasi'))->orderBy('id', 'DESC')->paginate(10);
 
         return view('pengurus.index', compact('pengurus', 'karyawan'));
@@ -52,9 +54,18 @@ class PengurusController extends Controller
 
     public function formTambah()
     {
-        $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->get();
+        $user = User::find(Session::get('id'));
 
-        return view('pengurus.tambah', compact('anggota'));
+        $koperasi = Koperasi::where('id_users', $user->id)->first();
+
+        if ($koperasi->badanHukum == null || $koperasi->thnBerdiri == null || $koperasi->deskripsi == null || $koperasi->jam_buka == null || $koperasi->jam_tutup == null || $koperasi->foto == null || $koperasi->banner == null || $koperasi->syarat == null || $koperasi->syarat_pinjaman == null || $koperasi->warna == null) {
+            return redirect('/pengurus')->with('alert-danger', 'tidak bisa tambah data, isi profile koperasi terlebih dahulu!');
+        }
+        else {
+            $anggota = Anggota::where('id_koperasi', Session::get('id_koperasi'))->where('status', 1)->get();
+
+            return view('pengurus.tambah', compact('anggota'));
+        }
     }
 
     public function formEdit($id)
